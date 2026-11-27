@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Icon3D from '../components/Icon3D'
 import NavIcon from '../components/NavIcons'
@@ -27,18 +26,6 @@ export default function Home({ go }: { go: (r: Route) => void }) {
   const orbit = useOrbit(HUB.map(h => h.angle), 152, 178, () => award('spin:' + dkey(), 5))
   // Citation du jour : tirée au hasard mais stable pour la journée (pas modifiable).
   const q = Math.abs([...dkey()].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)) % QUOTES.length
-  // Dégradé vertical de la citation : chaque ligne reçoit un gris plus clair que la précédente.
-  const quoteRef = useRef<HTMLQuoteElement>(null)
-  useEffect(() => {
-    const el = quoteRef.current; if (!el) return
-    const paint = () => {
-      const ls = [...el.querySelectorAll<HTMLElement>('.ql')]
-      const tops = [...new Set(ls.map(l => l.offsetTop))].sort((a, b) => a - b)
-      ls.forEach(l => { const i = tops.indexOf(l.offsetTop), p = tops.length > 1 ? Math.round(i / (tops.length - 1) * 100) : 0; l.style.color = `color-mix(in srgb, var(--qg2) ${p}%, var(--qg1))` })
-    }
-    paint(); const ro = new ResizeObserver(paint); ro.observe(el); document.fonts?.ready.then(paint)
-    return () => ro.disconnect()
-  }, [q])
   const [fap] = useLocal<Counter>('counter-fap', newCounter())
   const [cheat] = useLocal<Counter>('counter-cheat', newCounter())
   const [blog] = useLocal<Record<string, number[]>>('breath-log', {})
@@ -88,11 +75,17 @@ export default function Home({ go }: { go: (r: Route) => void }) {
       </motion.div>
 
       <motion.figure className="quote2" variants={item}>
-        <motion.blockquote ref={quoteRef} variants={{ show: { transition: { staggerChildren: .028, delayChildren: .15 } } }} initial="hidden" whileInView="show" viewport={{ once: true, amount: .6 }}>
+        <motion.blockquote variants={{ show: { transition: { staggerChildren: .028, delayChildren: .15 } } }} initial="hidden" whileInView="show" viewport={{ once: true, amount: .6 }}>
           <motion.span className="qm" variants={LETTER} style={{ color: 'var(--qg1)' }}>“</motion.span>
-          {QUOTES[q].split(' ').map((w, wi) => (
-            <span key={wi}><span className="qw">{[...w].map((ch, ci) => <motion.span key={ci} className="ql" variants={LETTER}>{ch}</motion.span>)}</span>{' '}</span>
-          ))}
+          {(() => {
+            // chaque lettre a sa propre teinte : gris (début) -> un peu de blanc (fin), dans l'ordre de lecture
+            const total = Math.max(1, [...QUOTES[q]].length - 1); let n = 0
+            return QUOTES[q].split(' ').map((w, wi) => (
+              <span key={wi}><span className="qw">{[...w].map((ch, ci) => (
+                <motion.span key={ci} className="ql" variants={LETTER} style={{ color: `color-mix(in srgb, var(--qg2) ${Math.round((n++ / total) * 100)}%, var(--qg1))` }}>{ch}</motion.span>
+              ))}</span>{n++ >= 0 ? ' ' : ''}</span>
+            ))
+          })()}
           <motion.span className="qm" variants={LETTER} style={{ color: 'var(--qg2)' }}>”</motion.span>
         </motion.blockquote>
       </motion.figure>
