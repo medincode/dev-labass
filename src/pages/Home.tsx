@@ -12,10 +12,10 @@ import { NAME, acts, daysSince, dkey, hello, newCounter, useLocal, type Counter 
 
 export type Route = 'home' | 'fap' | 'cheat' | 'fitness' | 'meditation' | 'mood' | 'rewards' | 'settings'
 const HUB: { r: Route; label: string; icon: string; c: string; angle: number }[] = [
-  { r: 'fap', label: 'Stay Clean', icon: 'nofap', c: 'var(--lav)', angle: -140 },
-  { r: 'fitness', label: 'Get fit', icon: 'fitness', c: 'var(--mint)', angle: -40 },
-  { r: 'meditation', label: 'Breath good', icon: 'meditation', c: 'var(--peach)', angle: 40 },
-  { r: 'cheat', label: 'Eat Clean', icon: 'cheat', c: 'var(--yel)', angle: 140 },
+  { r: 'fap', label: 'Stay Clean', icon: 'nofap', c: 'var(--lav)', angle: -138 },
+  { r: 'fitness', label: 'Get fit', icon: 'fitness', c: 'var(--mint)', angle: -42 },
+  { r: 'meditation', label: 'Breath good', icon: 'meditation', c: 'var(--peach)', angle: 42 },
+  { r: 'cheat', label: 'Eat Clean', icon: 'cheat', c: 'var(--yel)', angle: 138 },
 ]
 const LETTER = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: .25, ease: 'easeOut' as const } } }
 const list = { show: { transition: { staggerChildren: .03 } } }
@@ -24,7 +24,7 @@ const item = { hidden: { y: 26, opacity: 0, scale: .97 }, show: { y: 0, opacity:
 export default function Home({ go }: { go: (r: Route) => void }) {
   const g = useGame()
   // Mini-jeu : les 4 menus sont des satellites qu'on fait tourner (glisser) et qui gardent leur élan.
-  const orbit = useOrbit(HUB.map(h => h.angle), 148, 160, () => award('spin:' + dkey(), 5))
+  const orbit = useOrbit(HUB.map(h => h.angle), 152, 178, () => award('spin:' + dkey(), 5))
   // Citation du jour : tirée au hasard mais stable pour la journée (pas modifiable).
   const q = Math.abs([...dkey()].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)) % QUOTES.length
   // Dégradé vertical de la citation : chaque ligne reçoit un gris plus clair que la précédente.
@@ -81,7 +81,7 @@ export default function Home({ go }: { go: (r: Route) => void }) {
           <span key={h.r} ref={el => { orbit.els.current[i] = el }} className="orbit" {...orbit.bind} onClick={() => { if (!orbit.wasDrag()) go(h.r) }}>
             <motion.button className="obtn" aria-label={h.label} title={h.label} whileHover={{ scale: 1.1 }} whileTap={{ scale: .92 }}
               initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 220, damping: 14, delay: .25 + i * .1 }}>
-              <span className="orb2" style={{ '--t': h.c } as React.CSSProperties}><Icon3D name={h.icon} size={64} /></span>
+              <span className="orb2" style={{ '--t': h.c } as React.CSSProperties}><Icon3D name={h.icon} size={58} /></span>
             </motion.button>
           </span>
         ))}

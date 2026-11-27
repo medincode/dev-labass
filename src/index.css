@@ -361,3 +361,13 @@ html[data-theme=dark] .orbit .orb2{background:radial-gradient(circle at 30% 25%,
 
 .qw{display:inline-block;white-space:nowrap}.ql{display:inline-block}
 
+
+/* plus d'espace entre les ronds et le bonhomme */
+.hub{height:448px}
+.mascot-wrap{width:172px}
+.shadow{top:calc(50% + 92px);width:130px}
+.aura.a1{width:228px;height:228px}
+.aura.a2{width:352px;height:352px}
+.glow{width:250px;height:250px}
+.orbit{width:86px;height:86px;margin:-43px 0 0 -43px}
+.orbit .orb2{width:86px;height:86px}
