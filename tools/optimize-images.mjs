@@ -21,10 +21,5 @@ for (const [n, s] of [['favicon-32.png', 32], ['icon-192.png', 192], ['icon-512.
 await sharp(icon).webp({ lossless: true, effort: 6 }).toFile('src/assets/brand/app-icon.webp')
 const logo = await sharp('src/assets/brand/logo-src.webp').trim({ threshold: 8 }).toBuffer()
 await sharp(logo).resize({ width: 600 }).webp({ lossless: true, effort: 6 }).toFile('src/assets/brand/logo.webp')
-for (const f of readdirSync('src/assets/brand').filter(f => /^title-.*\.png$/.test(f))) {
-  const src = join('src/assets/brand', f)
-  await sharp(await sharp(src).trim({ threshold: 8 }).toBuffer()).resize({ width: 560, withoutEnlargement: true }).webp({ lossless: true, effort: 6 }).toFile(src.replace('.png', '.webp'))
-  unlinkSync(src)
-}
 await sharp('src/assets/brand/mascot.webp').toFile('/dev/null').catch(() => {})
 console.log('brand OK')

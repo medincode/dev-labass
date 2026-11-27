@@ -7,7 +7,7 @@ import mascot from '../assets/brand/mascot.webp'
 import { QUOTES } from '../data/quotes'
 import { useOrbit } from '../components/useOrbit'
 import { award, useGame } from '../game'
-import { NAME, dkey, hello } from '../store'
+import { NAME, acts, daysSince, dkey, hello, newCounter, useLocal, type Counter } from '../store'
 
 export type Route = 'home' | 'fap' | 'cheat' | 'fitness' | 'meditation' | 'mood' | 'rewards' | 'settings'
 const HUB: { r: Route; label: string; icon: string; c: string; angle: number }[] = [
@@ -22,6 +22,17 @@ const item = { hidden: { y: 26, opacity: 0, scale: .97 }, show: { y: 0, opacity:
 
 export default function Home({ go }: { go: (r: Route) => void }) {
   const g = useGame()
+  const [fap] = useLocal<Counter>('counter-fap', newCounter())
+  const [cheat] = useLocal<Counter>('counter-cheat', newCounter())
+  const [blog] = useLocal<Record<string, number[]>>('breath-log', {})
+  const lastB = Object.keys(blog).sort().pop()
+  const ago = lastB ? Math.round((Date.parse(dkey() + 'T12:00') - Date.parse(lastB + 'T12:00')) / 86400000) : null
+  const month = dkey().slice(0, 7)
+  const sessions = Object.keys(g.plan).filter(k => k.startsWith(month)).reduce((n, k) => n + acts(g.plan, k).length, 0)
+  const stats = [
+    { i: 'fap', v: daysSince(fap), l: 'Stay Clean', u: 'j' }, { i: 'cheat', v: daysSince(cheat), l: 'Eat Clean', u: 'j' },
+    { i: 'fitness', v: sessions, l: 'Séances', u: '' }, { i: 'meditation', v: ago === null ? '—' : ago === 0 ? 'Auj.' : ago === 1 ? 'Hier' : `${ago}j`, l: 'Dernier Wim Hof', u: '' },
+  ]
   // Mini-jeu : les 4 menus sont des satellites qu'on fait tourner (glisser) et qui gardent leur élan.
   const orbit = useOrbit(HUB.map(h => h.angle), 152, 178, () => award('spin:' + dkey(), 5))
   // Citation du jour : tirée au hasard mais stable pour la journée (pas modifiable).
@@ -73,6 +84,13 @@ export default function Home({ go }: { go: (r: Route) => void }) {
         </motion.blockquote>
       </motion.figure>
 
+      <motion.div className="qs" variants={item}>
+        {stats.map(t => (
+          <motion.div key={t.l} className="qs-item glass" whileHover={{ y: -4 }}>
+            <NavIcon name={t.i} size={24} /><b>{t.v}{t.u}</b><small>{t.l}</small>
+          </motion.div>
+        ))}
+      </motion.div>
     </motion.div>
   )
 }

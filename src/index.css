@@ -3,7 +3,7 @@
   --lav:#b9bdff; --yel:#f6e07c; --mint:#b9e6d6; --peach:#f7cfbc; --rose:#ee8a78; --olive:#8d9b62; --sky:#7aa6ec;
   --display:'Fredoka','Outfit',system-ui,sans-serif;
   --glass:rgba(255,255,255,.46); --glass-brd:rgba(255,255,255,.75);
-  --qg1:#555a6c;--qg2:#d4d7e2;--surf:rgba(255,255,255,.55); --surf-hi:rgba(255,255,255,.85); --ink2:var(--ink2); --track:rgba(0,0,0,.07); --sheet:#fbf9ff; --ghost:rgba(0,0,0,.07);
+  --qg1:#b4b8c6;--qg2:#e6e8ef;--surf:rgba(255,255,255,.55); --surf-hi:rgba(255,255,255,.85); --ink2:var(--ink2); --track:rgba(0,0,0,.07); --sheet:#fbf9ff; --ghost:rgba(0,0,0,.07);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body,#root{margin:0;height:100%}
@@ -136,7 +136,6 @@ video{object-fit:cover;width:100%;aspect-ratio:16/9;border:0;border-radius:22px;
 .sport{position:relative}.sport.on{outline:2.5px solid var(--ink)}
 .sel-tick{position:absolute!important;top:6px;right:6px}
 
-.title-logo{display:block;height:64px;width:auto;max-width:78%;margin:0 0 6px;filter:drop-shadow(0 6px 10px rgba(60,30,90,.15))}
 .sub{margin:0 0 18px;font-size:15px;color:var(--ink2)}
 
 .carousel{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px calc(50% - 56px);margin:0 -20px;scrollbar-width:none}
@@ -235,8 +234,7 @@ html[data-theme=dark] .quest.done,html[data-theme=dark] .exrow.ok{background:rgb
 html[data-theme=dark] .badge2.on{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(246,224,124,.2))}
 html[data-theme=dark] .citem.focus,html[data-theme=dark] .sitem.on{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3)}
 html[data-theme=dark] .citem,html[data-theme=dark] .sitem{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
-html[data-theme=dark] .brand,html[data-theme=dark] .title-logo{background:rgba(255,255,255,.9);border-radius:18px;padding:5px 12px;filter:none}
-html[data-theme=dark] .pill-bg{box-shadow:0 4px 14px rgba(0,0,0,.35)}
+html[data-theme=dark] .brand,html[data-theme=dark] html[data-theme=dark] .pill-bg{box-shadow:0 4px 14px rgba(0,0,0,.35)}
 html[data-theme=dark] .tabs .pill-bg{color:#1b1524}
 html[data-theme=dark] .tabs button.on span{color:#1b1524}
 html[data-theme=dark] .sm.on{border-color:rgba(255,255,255,.25)}
@@ -293,8 +291,7 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .mtitle{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
 .mtitle h3{margin:0}
 
-.titlerow{margin-bottom:6px}.titlerow .title-logo{margin:0}
-
+.titlerow{margin-bottom:6px}.titlerow 
 .nav .mask-ico{position:relative;z-index:1;display:block}
 
 /* auras : une seule couleur unie, ronds fins autour */
@@ -385,3 +382,12 @@ html[data-theme=dark] .aura.a2{border-color:rgba(200,203,218,.26)!important}
 .card.moodcard{padding:10px 12px 6px}
 .card.moodcard .sm{padding:4px 2px}
 .card.moodcard .strip{padding-top:4px;padding-bottom:20px;margin-bottom:-14px}
+
+.page-title{font-family:var(--display);font-weight:300;font-size:46px;line-height:1.05;letter-spacing:-.02em;margin:0 0 6px;color:var(--ink);opacity:.62}
+.card.moodcard{padding:14px 12px 6px}
+/* boutons principaux : toujours en dégradé */
+.pill{background:linear-gradient(135deg,#2b2340 0%,#4d3f7a 55%,#8a6fd0 100%);color:#fff;box-shadow:0 8px 20px rgba(77,63,122,.28),inset 0 1px 0 rgba(255,255,255,.22)}
+.pill.ghost{background:var(--ghost);color:var(--ink);box-shadow:none}
+.pill.danger{background:linear-gradient(135deg,#ee8a78 0%,#e5607a 100%);color:#fff;box-shadow:0 8px 20px rgba(229,96,122,.3),inset 0 1px 0 rgba(255,255,255,.25)}
+html[data-theme=dark] .pill:not(.ghost):not(.danger){background:linear-gradient(135deg,#5a4a9a 0%,#8a6fd0 60%,#b79cf5 100%)}
+@media (hover:hover){.pill:hover{filter:brightness(1.08)}}
