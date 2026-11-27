@@ -15,6 +15,8 @@ const paths: Record<string, React.ReactNode> = {
   chart: <path d="M5 20V11M12 20V5M19 20v-7" />,
   heartbreak: <><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" /><path d="M12 7.5 10.5 11l3 2-1.5 3.5" /></>,
   star: <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z" />,
+  video: <><rect x="3" y="6" width="13" height="12" rx="3" /><path d="M16 10.5l5-3v9l-5-3z" /></>,
+  audio: <><path d="M4 14v-2a8 8 0 0 1 16 0v2" /><rect x="3" y="14" width="4.5" height="6" rx="2" /><rect x="16.5" y="14" width="4.5" height="6" rx="2" /></>,
   refresh: <><path d="M20 11a8 8 0 1 0-2.3 5.7" /><path d="M20 4v7h-7" /></>,
 }
 export default function NavIcon({ name, size = 26 }: { name: string; size?: number }) {

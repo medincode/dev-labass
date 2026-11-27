@@ -395,3 +395,17 @@ html[data-theme=dark] .pill:not(.ghost):not(.danger){background:linear-gradient(
 .aura{border-color:rgba(160,164,178,.3)!important;--c:#b9bcc9}
 .aura.a2{border-color:rgba(160,164,178,.2)!important}
 .glow{background:radial-gradient(circle,rgba(170,174,188,.16),rgba(170,174,188,.06) 55%,transparent 72%)}
+
+/* sélecteur Vidéo / Audio + mode audio seul */
+.vmode{display:flex;gap:4px;padding:4px;border-radius:22px;margin:0 0 10px;width:fit-content}
+.vmode button{position:relative;display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:18px;font-size:13px;font-weight:600;color:var(--mute)}
+.vmode button.on{color:var(--ink)}.vmode svg,.vmode span{position:relative;z-index:1}
+.vp.audio{background:linear-gradient(145deg,rgba(40,34,70,.92),rgba(77,63,122,.85))}
+.vp.audio video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.vp.audio{aspect-ratio:16/9;display:grid;place-items:center}
+.vp-wave{position:absolute;inset:18% 8% 30%;display:flex;align-items:center;justify-content:center;gap:5px}
+.vp-wave i{flex:1;max-width:8px;border-radius:6px;background:linear-gradient(180deg,#d9ccff,#8a6fd0);opacity:.6;transform:scaleY(.35);transform-origin:center}
+.vp-wave.on i{opacity:1;animation:wave .9s ease-in-out infinite alternate}
+@keyframes wave{to{transform:scaleY(1)}}
+.title-logo{display:block;height:64px;width:auto;max-width:78%;margin:0 0 6px;filter:drop-shadow(0 6px 10px rgba(60,30,90,.15))}
+html[data-theme=dark] .title-logo{background:rgba(255,255,255,.9);border-radius:18px;padding:5px 12px;filter:none}

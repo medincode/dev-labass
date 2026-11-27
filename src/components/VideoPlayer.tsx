@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { keepAwake } from '../keepAwake'
+import NavIcon from './NavIcons'
+import { useLocal } from '../store'
 
 const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
 const I = { fill: 'none', stroke: 'currentColor', strokeWidth: 2.4, strokeLinecap: 'round', strokeLinejoin: 'round' } as const
@@ -13,6 +15,8 @@ export default function VideoPlayer({ src, onEnded, onStart }: { src: string; on
   const v = useRef<HTMLVideoElement>(null), box = useRef<HTMLDivElement>(null)
   const [playing, setPlaying] = useState(false), [t, setT] = useState(0), [dur, setDur] = useState(0)
   const [vol, setVol] = useState(1), [ui, setUi] = useState(true)
+  const [mode, setMode] = useLocal<'video' | 'audio'>('player-mode', 'video')   // même élément <video> : le son continue en changeant de mode
+  const audio = mode === 'audio'
   const hide = useRef<number>(0)
   const wake = () => { setUi(true); clearTimeout(hide.current); hide.current = window.setTimeout(() => v.current && !v.current.paused && setUi(false), 2500) }
   useEffect(() => () => { clearTimeout(hide.current); keepAwake(false) }, [])
@@ -26,7 +30,21 @@ export default function VideoPlayer({ src, onEnded, onStart }: { src: string; on
     v.current!.currentTime = x * dur; setT(x * dur); wake()
   }
   return (
-    <div ref={box} className="vp" onPointerMove={wake}>
+    <>
+    <div className="vmode glass" role="tablist" aria-label="Mode de lecture">
+      {(['video', 'audio'] as const).map(m => (
+        <button key={m} role="tab" aria-selected={mode === m} className={mode === m ? 'on' : ''} onClick={() => setMode(m)}>
+          {mode === m && <motion.i layoutId="vmodepill" className="pill-bg" transition={{ type: 'spring', stiffness: 380, damping: 30 }} />}
+          <NavIcon name={m} size={18} /><span>{m === 'video' ? 'Vidéo' : 'Audio'}</span>
+        </button>
+      ))}
+    </div>
+    <div ref={box} className={'vp' + (audio ? ' audio' : '')} onPointerMove={wake}>
+      {audio && (
+        <div className={'vp-wave' + (playing ? ' on' : '')} aria-hidden>
+          {Array.from({ length: 24 }).map((_, i) => <i key={i} style={{ animationDelay: `${(i % 8) * .11}s`, height: 14 + ((i * 37) % 46) + '%' }} />)}
+        </div>
+      )}
       <video ref={v} src={src} preload="metadata" playsInline onClick={toggle}
         onPlay={() => { setPlaying(true); wake(); keepAwake(true); onStart?.() }} onPause={() => { setPlaying(false); setUi(true); keepAwake(false) }}
         onTimeUpdate={e => setT(e.currentTarget.currentTime)} onLoadedMetadata={e => setDur(e.currentTarget.duration)}
@@ -49,5 +67,6 @@ export default function VideoPlayer({ src, onEnded, onStart }: { src: string; on
           style={{ '--v': vol * 100 + '%' } as React.CSSProperties} />
       </motion.div>
     </div>
+    </>
   )
 }
