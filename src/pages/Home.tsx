@@ -5,7 +5,7 @@ import logo from '../assets/brand/logo.webp'
 import mascot from '../assets/brand/mascot.webp'
 import { QUOTES } from '../data/quotes'
 import { useGame } from '../game'
-import { NAME, dkey, hello } from '../store'
+import { NAME, acts, daysSince, dkey, hello, newCounter, useLocal, type Counter } from '../store'
 
 export type Route = 'home' | 'fap' | 'cheat' | 'fitness' | 'meditation' | 'mood' | 'rewards' | 'settings'
 const HUB: { r: Route; label: string; icon: string; c: string; cls: string }[] = [
@@ -21,7 +21,14 @@ export default function Home({ go }: { go: (r: Route) => void }) {
   const g = useGame()
   // Citation du jour : tirée au hasard mais stable pour la journée (pas modifiable).
   const q = Math.abs([...dkey()].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)) % QUOTES.length
-  const done = g.quests.filter(x => x.done).length
+  const [fap] = useLocal<Counter>('counter-fap', newCounter())
+  const [cheat] = useLocal<Counter>('counter-cheat', newCounter())
+  const month = dkey().slice(0, 7)
+  const sessions = Object.keys(g.plan).filter(k => k.startsWith(month)).reduce((n, k) => n + acts(g.plan, k).length, 0)
+  const stats = [
+    { i: 'nofap', v: daysSince(fap), l: 'Stay Clean', u: 'j' }, { i: 'cheat', v: daysSince(cheat), l: 'Eat Clean', u: 'j' },
+    { i: 'fitness', v: sessions, l: 'Séances', u: '' }, { i: 'star', v: g.xp, l: 'XP', u: '' },
+  ]
   return (
     <motion.div className="scroll" variants={list} initial="hidden" animate="show">
       <motion.div className="top" variants={item}>
@@ -32,7 +39,7 @@ export default function Home({ go }: { go: (r: Route) => void }) {
         <div className="row" style={{ gap: 8 }}>
           <motion.button className="round glass" aria-label="Paramètres" onClick={() => go('settings')} whileHover={{ rotate: 90, scale: 1.08 }} whileTap={{ scale: .88 }}><Icon3D name="settings" size={34} /></motion.button>
           <motion.button className="lvl glass" onClick={() => go('rewards')} whileHover={{ scale: 1.06 }} whileTap={{ scale: .94 }}>
-            <Icon3D name="star" size={30} float />
+            <Icon3D name="star" size={30} />
             <div><b>Niv. {g.level}</b><div className="xpbar"><motion.i initial={{ width: 0 }} animate={{ width: g.pct + '%' }} transition={{ duration: 1, ease: 'easeOut' }} /></div></div>
           </motion.button>
         </div>
@@ -60,14 +67,20 @@ export default function Home({ go }: { go: (r: Route) => void }) {
         ))}
       </motion.div>
 
-      <motion.figure className="quote2 glass" variants={item}>
-        <blockquote>« {QUOTES[q]} »</blockquote>
+      <motion.figure className="quote2" variants={item}>
+        <blockquote><span className="qm">“</span>{QUOTES[q]}<span className="qm">”</span></blockquote>
       </motion.figure>
 
-      <motion.button className="wide glass" variants={item} onClick={() => go('rewards')} whileHover={{ y: -3 }} whileTap={{ scale: .97 }}>
-        <Icon3D name="trophy" size={54} float delay={.5} />
-        <div><b>Récompenses</b><small>{done}/3 quêtes · niveau {g.level}</small></div>
-      </motion.button>
+      <motion.div variants={item}>
+        <h3 className="qs-title">Quick stats</h3>
+        <div className="qs">
+          {stats.map(t => (
+            <motion.div key={t.l} className="qs-item glass" whileHover={{ y: -4 }}>
+              <Icon3D name={t.i} size={36} /><b>{t.v}{t.u}</b><small>{t.l}</small>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
     </motion.div>
   )
 }

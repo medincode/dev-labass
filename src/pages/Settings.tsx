@@ -2,7 +2,6 @@ import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Confirm from '../components/Confirm'
 import NavIcon from '../components/NavIcons'
-import { signIn, signOut, signUp, syncEnabled, syncNow, useSync } from '../sync'
 import { DEFAULT_SETTINGS, NAME, type Settings, readLocal, useLocal, writeLocal } from '../store'
 
 const KEYS = ['counter-fap', 'counter-cheat', 'mood-log', 'fitness-plan', 'awards', 'prog-done', 'settings']
@@ -18,14 +17,9 @@ function Switch({ on, onChange, label }: { on: boolean; onChange: (v: boolean) =
 
 export default function SettingsPage() {
   const [st, setSt] = useLocal<Settings>('settings', DEFAULT_SETTINGS)
-  const [name, setName] = useState(st.name)
   const [ask, setAsk] = useState(false)
   const file = useRef<HTMLInputElement>(null)
-  const sync = useSync()
-  const [mail, setMail] = useState(''), [pw, setPw] = useState(''), [msg, setMsg] = useState<string | undefined>(), [busy, setBusy] = useState(false)
-  const auth = async (up: boolean) => { setBusy(true); setMsg(undefined); const e = await (up ? signUp : signIn)(mail.trim(), pw); setMsg(e); setBusy(false); if (!e) setPw('') }
   const set = (p: Partial<Settings>) => setSt({ ...st, ...p })
-  const saveName = () => { const n = name.trim() || 'Mehdi'; if (n !== NAME) { setSt({ ...st, name: n }); setTimeout(() => location.reload(), 150) } }
   const exportData = () => {
     const data: Record<string, unknown> = {}; KEYS.forEach(k => { data[k] = readLocal(k, null) })
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }))
@@ -54,50 +48,10 @@ export default function SettingsPage() {
       </div>
 
       <div className="card glass">
-        <h3>Profil</h3>
-        <div className="row" style={{ gap: 8 }}>
-          <input className="field" value={name} maxLength={20} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === 'Enter' && saveName()} aria-label="Prénom" />
-          <motion.button className="pill" whileTap={{ scale: .93 }} onClick={saveName}>OK</motion.button>
-        </div>
-        <small className="mute">Le prénom utilisé dans tous les messages.</small>
-      </div>
-
-      <div className="card glass">
         <h3>Performance</h3>
         <div className="setrow"><div><b>Animations réduites</b><small>Moins de mouvement, moins de batterie</small></div><Switch label="Animations réduites" on={st.reduceMotion} onChange={v => set({ reduceMotion: v })} /></div>
         <div className="setrow"><div><b>Effet verre (flou)</b><small>Désactive-le si ton téléphone chauffe</small></div><Switch label="Effet verre" on={st.blur} onChange={v => set({ blur: v })} /></div>
       </div>
-
-      {syncEnabled && (
-        <div className="card glass">
-          <h3>Compte &amp; synchronisation</h3>
-          {sync.email ? (
-            <>
-              <p style={{ margin: '0 0 10px' }}>Connecté : <b>{sync.email}</b></p>
-              <small className="mute" style={{ display: 'block', marginBottom: 12 }}>
-                {sync.state === 'syncing' ? 'Synchronisation…' : sync.state === 'error' ? `Erreur : ${sync.msg}` : sync.last ? `Synchronisé à ${new Date(sync.last).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}` : 'Prêt'}
-              </small>
-              <div className="row" style={{ gap: 8 }}>
-                <motion.button className="pill" whileTap={{ scale: .93 }} onClick={syncNow}>Synchroniser</motion.button>
-                <motion.button className="pill ghost" whileTap={{ scale: .93 }} onClick={() => signOut()}>Se déconnecter</motion.button>
-              </div>
-            </>
-          ) : (
-            <>
-              <small className="mute" style={{ display: 'block', marginBottom: 10 }}>Connecte-toi pour retrouver tes données sur tous tes appareils. Sans compte, tout reste sur ce téléphone.</small>
-              <div style={{ display: 'grid', gap: 8 }}>
-                <input className="field" type="email" autoComplete="email" placeholder="Email" value={mail} onChange={e => setMail(e.target.value)} />
-                <input className="field" type="password" autoComplete="current-password" placeholder="Mot de passe (8+ caractères)" value={pw} onChange={e => setPw(e.target.value)} />
-              </div>
-              {msg && <small style={{ display: 'block', margin: '8px 0 0', color: 'var(--rose)' }}>{msg}</small>}
-              <div className="row" style={{ gap: 8, marginTop: 12 }}>
-                <motion.button className="pill" disabled={busy || !mail || pw.length < 8} whileTap={{ scale: .93 }} onClick={() => auth(false)}>Se connecter</motion.button>
-                <motion.button className="pill ghost" disabled={busy || !mail || pw.length < 8} whileTap={{ scale: .93 }} onClick={() => auth(true)}>Créer un compte</motion.button>
-              </div>
-            </>
-          )}
-        </div>
-      )}
 
       <div className="card glass">
         <h3>Données</h3>

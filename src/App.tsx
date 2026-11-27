@@ -3,7 +3,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { DEFAULT_SETTINGS, useLocal, type Settings } from './store'
 import { Back } from './components/Glyph'
 import Home, { type Route } from './pages/Home'
-import Icon3D from './components/Icon3D'
+import NavIcon from './components/NavIcons'
 import Toast from './components/Toast'
 
 const CounterPage = lazy(() => import('./pages/Counter'))
@@ -77,7 +77,7 @@ export default function App() {
         {NAV.map(n => (
           <motion.button key={n.r} className={tab === n.r ? 'on' : ''} onClick={() => setR(n.r)} whileHover={{ y: -3 }} whileTap={{ scale: .85 }} aria-label={n.l} title={n.l}>
             {tab === n.r && <motion.i layoutId="pill" className="pill-bg" transition={{ type: 'spring', stiffness: 380, damping: 30 }} />}
-            <Icon3D name={n.i} size={tab === n.r ? 40 : 32} animate={{ y: tab === n.r ? -2 : 0, scale: tab === n.r ? 1 : .92 }} />
+            <NavIcon name={n.r} />
           </motion.button>
         ))}
       </motion.nav>
