@@ -38,7 +38,7 @@ export default function Home({ go }: { go: (r: Route) => void }) {
           <span className="vbadge glass">v{__APP_VERSION__}</span>
         </div>
         <div className="row" style={{ gap: 8 }}>
-          <motion.button className="round glass" aria-label="Paramètres" onClick={() => go('settings')} whileHover={{ rotate: 90, scale: 1.08 }} whileTap={{ scale: .88 }}><Icon3D name="settings" size={34} /></motion.button>
+          <motion.button className="round glass" aria-label="Paramètres" onClick={() => go('settings')} whileHover={{ rotate: 60, scale: 1.08 }} whileTap={{ scale: .88 }}><NavIcon name="settings" size={22} /></motion.button>
           <motion.button className="lvl glass" onClick={() => go('rewards')} whileHover={{ scale: 1.06 }} whileTap={{ scale: .94 }}>
             <Icon3D name="star" size={30} />
             <div><b>Niv. {g.level}</b><div className="xpbar"><motion.i initial={{ width: 0 }} animate={{ width: g.pct + '%' }} transition={{ duration: 1, ease: 'easeOut' }} /></div></div>
