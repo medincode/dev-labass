@@ -13,7 +13,7 @@ import NavIcon from './components/NavIcons'
 import Toast from './components/Toast'
 
 
-const NAV: { r: Route; l: string; i: string }[] = [{ r: 'home', l: 'Accueil', i: 'home' }, { r: 'fap', l: 'Stay Clean', i: 'nofap' }, { r: 'cheat', l: 'Eat Clean', i: 'cheat' }, { r: 'fitness', l: 'Get fit', i: 'fitness' }, { r: 'meditation', l: 'Breath good', i: 'meditation' }]
+const NAV: { r: Route; l: string; i: string }[] = [{ r: 'home', l: 'Accueil', i: 'home' }, { r: 'mood', l: 'Mood', i: 'mood' }, { r: 'fap', l: 'Stay Clean', i: 'nofap' }, { r: 'cheat', l: 'Eat Clean', i: 'cheat' }, { r: 'fitness', l: 'Get fit', i: 'fitness' }, { r: 'meditation', l: 'Breath good', i: 'meditation' }]
 
 const ROUTES: Route[] = ['home', 'fap', 'cheat', 'fitness', 'meditation', 'mood', 'rewards', 'settings']
 const fromHash = (): Route => { const h = location.hash.replace(/^#\/?/, '') as Route; return ROUTES.includes(h) ? h : 'home' }
@@ -46,7 +46,7 @@ export default function App() {
     rewards: <Rewards />,
     settings: <SettingsPage />,
   }[r]
-  const tab: Route = r === 'mood' || r === 'rewards' || r === 'settings' ? 'home' : r
+  const tab: Route = r === 'rewards' || r === 'settings' ? 'home' : r
   return (
     <MotionConfig reducedMotion={st.reduceMotion ? 'always' : 'user'}>
     <div className="app" data-home={r === 'home' ? '' : undefined}>
@@ -66,7 +66,7 @@ export default function App() {
         {NAV.map(n => (
           <motion.button key={n.r} className={tab === n.r ? 'on' : ''} onClick={() => setR(n.r)} whileHover={{ y: -3 }} whileTap={{ scale: .85 }} aria-label={n.l} title={n.l}>
             {tab === n.r && <motion.i layoutId="pill" className="pill-bg" transition={{ type: 'spring', stiffness: 380, damping: 30 }} />}
-            <NavIcon name={n.r} />
+            <NavIcon name={n.r} size={22} />
           </motion.button>
         ))}
       </motion.nav>
