@@ -3,7 +3,7 @@ import Icon3D from '../components/Icon3D'
 import { Arrow } from '../components/Glyph'
 import logo from '../assets/brand/logo.webp'
 import { useGame } from '../game'
-import { NAME, SPORTS, daysSince, hello, newCounter, useLocal, type Counter } from '../store'
+import { NAME, SPORTS, acts, daysSince, hello, newCounter, useLocal, type Counter } from '../store'
 
 export type Route = 'home' | 'fap' | 'cheat' | 'fitness' | 'meditation' | 'mood' | 'rewards'
 const list = { show: { transition: { staggerChildren: .07 } } }
@@ -13,13 +13,14 @@ export default function Home({ go }: { go: (r: Route) => void }) {
   const g = useGame()
   const [fap] = useLocal<Counter>('counter-fap', newCounter())
   const [cheat] = useLocal<Counter>('counter-cheat', newCounter())
-  const sport = SPORTS.find(s => s.id === g.plan[g.today])
+  const todays = acts(g.plan, g.today).map(id => SPORTS.find(s => s.id === id)!).filter(Boolean)
+  const sport = todays[0]
   const mood = g.moods[g.today]
   const done = g.quests.filter(q => q.done).length
   const tiles = [
     { r: 'fap' as Route, t: 'Stay Clean', sub: `${daysSince(fap)} jour${daysSince(fap) > 1 ? 's' : ''}`, c: 'var(--lav)', i: 'nofap' },
     { r: 'cheat' as Route, t: 'Eat Clean', sub: `${daysSince(cheat)} jour${daysSince(cheat) > 1 ? 's' : ''}`, c: 'var(--yel)', i: 'cheat' },
-    { r: 'fitness' as Route, t: 'Get fit', sub: sport ? sport.label : 'Repos aujourd\'hui', c: 'var(--mint)', i: sport ? sport.id : 'fitness' },
+    { r: 'fitness' as Route, t: 'Get fit', sub: todays.length > 1 ? `${todays.length} activités` : sport ? sport.label : 'Repos aujourd\'hui', c: 'var(--mint)', i: sport ? sport.id : 'fitness' },
     { r: 'meditation' as Route, t: 'Breath good', sub: g.awards['breath:' + g.today] ? 'Fait aujourd\'hui' : 'À faire', c: 'var(--peach)', i: 'meditation' },
   ]
   return (

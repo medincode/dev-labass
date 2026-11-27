@@ -60,3 +60,7 @@ export const SPORTS = [
 
 export const NAME = 'Mehdi'
 export const hello = () => { const h = new Date().getHours(); return h < 5 ? 'Bonne nuit' : h < 12 ? 'Bonjour' : h < 18 ? 'Salut' : 'Bonsoir' }
+
+/** Planning : plusieurs activités par jour (anciennes données = une seule chaîne). */
+export type Plan = Record<string, string[] | string>
+export const acts = (p: Plan, k: string): string[] => { const v = p[k]; return Array.isArray(v) ? v : v ? [v] : [] }

@@ -130,3 +130,7 @@ video{object-fit:cover;width:100%;aspect-ratio:16/9;border:0;border-radius:22px;
 .tabs .pill-bg{background:#fffc}
 .tabs span,.tabs img{position:relative;z-index:1}
 .tabs .tick{position:absolute!important;top:2px;right:8px;z-index:2}
+
+.dayicons{display:flex;flex-wrap:wrap;gap:1px;justify-content:center;align-items:center;max-width:90%;padding-top:6px}
+.sport{position:relative}.sport.on{outline:2.5px solid var(--ink)}
+.sel-tick{position:absolute!important;top:6px;right:6px}
