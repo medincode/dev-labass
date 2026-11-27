@@ -4,3 +4,4 @@ android/build
 android/app/build
 android/.gradle
 src/assets/3d/*.png
+src/assets/brand/title-*.png

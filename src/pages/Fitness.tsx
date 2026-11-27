@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Icon3D from '../components/Icon3D'
+import TitleLogo from '../components/TitleLogo'
 import { Next, Prev } from '../components/Glyph'
 import { award } from '../game'
 import { NAME, SPORTS, acts, dkey, useLocal, type Plan } from '../store'
@@ -28,8 +29,8 @@ export default function Fitness() {
   const selActs = sel ? acts(plan, sel) : []
   return (
     <div className="scroll">
-      <p className="eyebrow">Fitness planning</p>
-      <h1><b>Get fit</b> {NAME},<br />ton planning sport</h1>
+      <TitleLogo name="getfit" alt="Get fit" />
+      <p className="sub">{NAME}, ton planning sport</p>
       <motion.div className="card glass" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
         <div className="row" style={{ marginBottom: 12 }}>
           <motion.button className="round" whileHover={{ scale: 1.12 }} whileTap={{ scale: .85 }} onClick={() => setCur(new Date(y, m - 1, 1))}><Prev /></motion.button>

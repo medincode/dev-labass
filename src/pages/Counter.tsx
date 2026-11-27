@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Confirm from '../components/Confirm'
 import Icon3D from '../components/Icon3D'
+import TitleLogo from '../components/TitleLogo'
 import { DAY, NAME, daysSince, newCounter, useLocal, type Counter as C } from '../store'
 
 type Props = { id: string; title: string; sub: string; bg: string; illus: string }
@@ -22,8 +23,8 @@ export default function CounterPage({ id, title, sub, bg, illus }: Props) {
   const reset = () => { setC({ start: Date.now(), history: [...c.history, { start: c.start, end: Date.now() }] }); setAsk(false) }
   return (
     <div className="scroll">
-      <p className="eyebrow">{sub}</p>
-      <h1><b>{title}</b></h1>
+      <TitleLogo name={id === 'fap' ? 'stayclean' : 'eatclean'} alt={title} />
+      <p className="sub">{sub}, {NAME}</p>
       <motion.div className="hero glass center" style={{ '--t': bg } as React.CSSProperties} initial={{ scale: .94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
         <Icon3D name={illus} size={150} float />
         {days >= 7 && <Icon3D name="flame" size={44} float style={{ position: 'absolute', right: 18, top: 18 }} />}

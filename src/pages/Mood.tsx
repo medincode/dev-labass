@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import Icon3D from '../components/Icon3D'
+import TitleLogo from '../components/TitleLogo'
 import { award, useGame } from '../game'
 import { MOODS, NAME, dkey, useLocal } from '../store'
 
@@ -15,22 +17,30 @@ export default function Mood() {
   const max = Math.max(1, ...counts.map(c => c.n))
   const top = [...counts].sort((a, b) => b.n - a.n)[0]
   const days = Array.from({ length: 28 }).map((_, i) => { const d = new Date(); d.setDate(d.getDate() - 27 + i); return { d, id: log[dkey(d)] } })
+  const rail = useRef<HTMLDivElement>(null)
+  const [focus, setFocus] = useState(Math.max(0, MOODS.findIndex(m => m.id === cur)))
+  const W = 122
+  const go = (i: number) => rail.current?.scrollTo({ left: i * W, behavior: 'smooth' })
+  useEffect(() => { rail.current?.scrollTo({ left: focus * W }) }, [])  // eslint-disable-line react-hooks/exhaustive-deps
+  const shown = MOODS[focus].id
   const pick = (id: string) => { setLog({ ...log, [g.today]: id }); award('mood:' + g.today, 10) }
   return (
     <div className="scroll">
-      <p className="eyebrow">Mood-o-meter</p>
-      <h1>Alors <b>{NAME}</b>,<br />comment tu te sens ?</h1>
+      <TitleLogo name="mood" alt="Mood-o-meter" />
+      <p className="sub">Alors {NAME}, comment tu te sens ?</p>
       <motion.div className="hero glass" style={{ '--t': 'var(--peach)' } as React.CSSProperties} initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-        <div className="moods big-moods">
-          {MOODS.map(m => (
-            <motion.button key={m.id} aria-label={m.label} whileHover={{ y: -8, scale: 1.15, rotate: 6 }} whileTap={{ scale: .8 }}
-              animate={{ scale: cur === m.id ? 1.2 : 1 }} className={'mood' + (cur === m.id ? ' sel' : '')} onClick={() => pick(m.id)}>
-              <Icon3D name={'mood-' + m.id} size={56} />
+        <div ref={rail} className="carousel" onScroll={e => setFocus(Math.min(MOODS.length - 1, Math.max(0, Math.round(e.currentTarget.scrollLeft / W))))}>
+          {MOODS.map((m, i) => (
+            <motion.button key={m.id} className={'citem' + (focus === i ? ' focus' : '') + (cur === m.id ? ' chosen' : '')} aria-label={m.label}
+              onClick={() => { go(i); pick(m.id) }} whileTap={{ scale: .94 }}>
+              <Icon3D name={'mood-' + m.id} size={focus === i ? 96 : 68} float={focus === i} />
+              <b>{m.label}</b>
+              {cur === m.id && <motion.span className="chip glass" initial={{ scale: 0 }} animate={{ scale: 1 }}>Mon mood</motion.span>}
             </motion.button>
           ))}
         </div>
-        <motion.p key={cur} className="msg" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-          {cur ? MSG[cur] : `Choisis ton mood du jour, ${NAME} (+10 XP).`}
+        <motion.p key={shown} className="msg center" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+          {cur === shown ? MSG[shown] : `Touche pour choisir ${MOODS[focus].label.toLowerCase()}, ${NAME} (+10 XP).`}
         </motion.p>
       </motion.div>
 

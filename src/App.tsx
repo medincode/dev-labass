@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import Home, { type Route } from './pages/Home'
 import Icon3D from './components/Icon3D'
 import Toast from './components/Toast'
@@ -17,6 +17,7 @@ const NAV: { r: Route; i: string; l: string }[] = [
 
 export default function App() {
   const [r, setR] = useState<Route>('home')
+  useEffect(() => { document.title = `Labass v${__APP_VERSION__}` }, [])
   const back = () => setR('home')
   const page = {
     home: <Home go={setR} />,
@@ -45,6 +46,7 @@ export default function App() {
           </motion.button>
         ))}
       </motion.nav>
+      <footer className="ver">Labass v{__APP_VERSION__}</footer>
     </div>
   )
 }

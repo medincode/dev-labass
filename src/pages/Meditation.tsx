@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import Icon3D from '../components/Icon3D'
+import TitleLogo from '../components/TitleLogo'
 import VideoPlayer from '../components/VideoPlayer'
 import { award, useGame } from '../game'
 import { NAME } from '../store'
@@ -16,8 +17,8 @@ export default function Meditation() {
   const cur = LEVELS[lvl - 1]
   return (
     <div className="scroll">
-      <p className="eyebrow">Méditation · Breathing</p>
-      <h1><b>Breath good</b> {NAME},<br />méthode Wim Hof</h1>
+      <TitleLogo name="breathgood" alt="Breath good" />
+      <p className="sub">{NAME}, méthode Wim Hof</p>
       <div className="tabs glass" role="tablist">
         {LEVELS.map(l => (
           <motion.button key={l.n} role="tab" aria-selected={lvl === l.n} className={lvl === l.n ? 'on' : ''} onClick={() => setLvl(l.n)} whileTap={{ scale: .92 }}>

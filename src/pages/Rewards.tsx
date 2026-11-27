@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import Icon3D from '../components/Icon3D'
+import TitleLogo from '../components/TitleLogo'
 import { Back } from '../components/Glyph'
 import { BADGES, XP_PER_LEVEL, useGame } from '../game'
 import { NAME } from '../store'
@@ -10,8 +11,8 @@ export default function Rewards({ onBack }: { onBack: () => void }) {
   return (
     <div className="scroll">
       <motion.button className="back" onClick={onBack} whileHover={{ x: -4 }} whileTap={{ scale: .85 }}><Back /></motion.button>
-      <p className="eyebrow">Récompenses</p>
-      <h1>Le niveau de <b>{NAME}</b></h1>
+      <TitleLogo name="rewards" alt="Récompenses" />
+      <p className="sub">Le niveau de {NAME}</p>
 
       <motion.div className="hero glass center" style={{ '--t': 'var(--yel)' } as React.CSSProperties} initial={{ scale: .94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
         <Icon3D name="trophy" size={120} float />
