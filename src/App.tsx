@@ -1,17 +1,17 @@
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DEFAULT_SETTINGS, useLocal, type Settings } from './store'
 import { Back } from './components/Glyph'
 import Home, { type Route } from './pages/Home'
+import CounterPage from './pages/Counter'
+import Fitness from './pages/Fitness'
+import Meditation from './pages/Meditation'
+import Mood from './pages/Mood'
+import Rewards from './pages/Rewards'
+import SettingsPage from './pages/Settings'
 import NavIcon from './components/NavIcons'
 import Toast from './components/Toast'
 
-const CounterPage = lazy(() => import('./pages/Counter'))
-const Fitness = lazy(() => import('./pages/Fitness'))
-const Meditation = lazy(() => import('./pages/Meditation'))
-const Mood = lazy(() => import('./pages/Mood'))
-const Rewards = lazy(() => import('./pages/Rewards'))
-const SettingsPage = lazy(() => import('./pages/Settings'))
 
 const NAV: { r: Route; l: string; i: string }[] = [{ r: 'home', l: 'Accueil', i: 'home' }, { r: 'fap', l: 'Stay Clean', i: 'nofap' }, { r: 'cheat', l: 'Eat Clean', i: 'cheat' }, { r: 'fitness', l: 'Get fit', i: 'fitness' }, { r: 'meditation', l: 'Breath good', i: 'meditation' }]
 
@@ -59,11 +59,9 @@ export default function App() {
             whileHover={{ x: -3, scale: 1.06 }} whileTap={{ scale: .88 }}><Back /></motion.button>
         )}
       </AnimatePresence>
-      <AnimatePresence mode="wait">
-        <motion.div key={r} style={{ height: '100%' }} initial={{ opacity: 0, y: 14, scale: .985 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: .2 }}>
-          <Suspense fallback={null}>{page}</Suspense>
-        </motion.div>
-      </AnimatePresence>
+      <motion.div key={r} style={{ height: '100%' }} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .16, ease: 'easeOut' }}>
+        {page}
+      </motion.div>
       <motion.nav className="nav glass" initial={{ y: 100 }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 200, damping: 18, delay: .25 }}>
         {NAV.map(n => (
           <motion.button key={n.r} className={tab === n.r ? 'on' : ''} onClick={() => setR(n.r)} whileHover={{ y: -3 }} whileTap={{ scale: .85 }} aria-label={n.l} title={n.l}>

@@ -15,7 +15,7 @@ const HUB: { r: Route; label: string; icon: string; c: string; cls: string }[] =
   { r: 'cheat', label: 'Eat Clean', icon: 'cheat', c: 'var(--yel)', cls: 'b2' },
   { r: 'meditation', label: 'Breath good', icon: 'meditation', c: 'var(--peach)', cls: 'b3' },
 ]
-const list = { show: { transition: { staggerChildren: .07 } } }
+const list = { show: { transition: { staggerChildren: .03 } } }
 const item = { hidden: { y: 26, opacity: 0, scale: .97 }, show: { y: 0, opacity: 1, scale: 1, transition: { type: 'spring' as const, stiffness: 260, damping: 20 } } }
 
 export default function Home({ go }: { go: (r: Route) => void }) {
