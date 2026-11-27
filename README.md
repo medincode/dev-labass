@@ -35,20 +35,9 @@ npm run dev        # http://localhost:5173
 npm run build      # build de prod dans dist/
 ```
 
-## 🎬 Vidéos breathing (compressées)
+## 🎬 Vidéos breathing
 
-YouTube bloque les serveurs cloud : le téléchargement se fait **sur ton PC**.
-
-```bash
-pip install yt-dlp            # + ffmpeg installé
-./scripts/download-videos.sh  # télécharge ET compresse (480p, CRF 30, faststart)
-# si YouTube demande de prouver que tu n'es pas un robot :
-COOKIES=firefox ./scripts/download-videos.sh
-git add public/videos && git commit -m "vidéos breathing" && git push
-```
-
-Un mp4 déjà présent se recompresse avec `./scripts/compress-videos.sh`.
-Tant que les fichiers sont absents, l'app affiche un bouton « Ouvrir sur YouTube ».
+Les 3 niveaux Wim Hof sont intégrés par URL YouTube (lecteur embarqué, connexion internet requise) : [niveau 1](https://www.youtube.com/watch?v=tybOi4hjZFQ) · [niveau 2](https://www.youtube.com/watch?v=YkE8AObpzm4) · [niveau 3](https://www.youtube.com/watch?v=u8j7Ir_cg0M).
 
 ## 📱 Générer l'APK
 
@@ -81,7 +70,6 @@ src/
 ├─ store.ts      localStorage, humeurs, sports
 └─ index.css     palette pastel
 android/         projet Capacitor
-scripts/         vidéos (download + compress)
 ```
 
 ## 🎨 Palette
