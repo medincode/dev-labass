@@ -455,4 +455,3 @@ html[data-theme=dark] .aura.a1{border-color:rgba(200,203,218,.22)!important}
 /* perf : pas d'animation décorative en boucle pendant le scroll, pas de will-change permanent */
 html.scrolling *,html.scrolling *::before,html.scrolling *::after{animation-play-state:paused!important}
 .float{will-change:auto}
-.hub{contain:layout paint}
