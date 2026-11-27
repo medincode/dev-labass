@@ -101,7 +101,7 @@ h3{font-size:18px;font-weight:600;margin:0 0 10px}
 .sport{color:#1b1524;border-radius:24px;padding:10px 6px;text-align:center;font-size:12px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px}
 video{object-fit:cover;width:100%;aspect-ratio:16/9;border:0;border-radius:22px;background:#000;display:block}
 .vp{position:relative;border-radius:22px;overflow:hidden;background:#000}
-.vp-big{position:absolute;left:50%;top:50%;translate:-50% -50%;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;color:#fff;background:#ffffff40;padding-left:4px}
+.vp-big{position:absolute;left:50%;top:50%;translate:-50% -50%;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;color:#fff;background:#ffffff40}
 .vp-bar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:22px;color:#fff;background:#1b1524bf;border-color:#ffffff30;backdrop-filter:none;-webkit-backdrop-filter:none}
 .vp-bar button{display:grid;place-items:center;height:30px;min-width:26px}
 .vp-bar small{font-size:11px;font-variant-numeric:tabular-nums;opacity:.9}
@@ -451,3 +451,4 @@ html[data-theme=dark] .aura.a1{border-color:rgba(200,203,218,.22)!important}
 .cal .day img{margin-top:0;max-width:100%}
 /* sports : icône + nom centrés dans la carte */
 .sitem{justify-content:center;gap:6px;padding:8px 6px}
+.vp-big svg{display:block;margin:0}
