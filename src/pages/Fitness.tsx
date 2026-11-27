@@ -77,7 +77,7 @@ export default function Fitness() {
           {Array.from({ length: offset }).map((_, i) => <div key={'e' + i} />)}
           {Array.from({ length: n }).map((_, i) => {
             const k = dkey(new Date(y, m, i + 1)); const list = acts(plan, k).map(sp)
-            const sz = list.length > 2 ? 18 : list.length === 2 ? 22 : 30
+            const sz = list.length > 2 ? 12 : list.length === 2 ? 15 : 22
             return (
               <motion.button key={k} className={'day' + (k === today ? ' today' : '')} style={list[0] ? { background: list[0].c } : undefined}
                 whileHover={{ scale: 1.14, zIndex: 2 }} whileTap={{ scale: .88 }} onClick={() => setSel(k)}>
