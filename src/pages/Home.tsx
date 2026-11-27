@@ -31,7 +31,7 @@ export default function Home({ go }: { go: (r: Route) => void }) {
   const sessions = Object.keys(g.plan).filter(k => k.startsWith(month)).reduce((n, k) => n + acts(g.plan, k).length, 0)
   const stats = [
     { i: 'fap', v: daysSince(fap), l: 'Stay Clean', u: 'j' }, { i: 'cheat', v: daysSince(cheat), l: 'Eat Clean', u: 'j' },
-    { i: 'fitness', v: sessions, l: 'Séances', u: '' }, { i: 'meditation', v: ago === null ? '—' : ago === 0 ? 'Auj.' : ago === 1 ? 'Hier' : `${ago}j`, l: 'Dernier Wim Hof', u: '' },
+    { i: 'fitness', v: sessions, l: 'Séances', u: '' }, { i: 'meditation', v: ago === null ? '—' : ago === 0 ? 'Auj.' : ago === 1 ? 'Hier' : `${ago}j`, l: 'Breathing', u: '' },
   ]
   // Mini-jeu : les 4 menus sont des satellites qu'on fait tourner (glisser) et qui gardent leur élan.
   const orbit = useOrbit(HUB.map(h => h.angle), 152, 178, () => award('spin:' + dkey(), 5))
