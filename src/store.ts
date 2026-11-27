@@ -57,3 +57,6 @@ export const SPORTS = [
   { id: 'stretch', label: 'Stretching', c: '#e3e6c9' },
   { id: 'ice', label: 'Ice bath', c: '#bcd8f5' },
 ] as const
+
+export const NAME = 'Mehdi'
+export const hello = () => { const h = new Date().getHours(); return h < 5 ? 'Bonne nuit' : h < 12 ? 'Bonjour' : h < 18 ? 'Salut' : 'Bonsoir' }

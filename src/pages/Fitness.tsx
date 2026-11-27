@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Icon3D from '../components/Icon3D'
-import { Back, Next, Prev } from '../components/Glyph'
+import { Next, Prev } from '../components/Glyph'
 import { award } from '../game'
-import { SPORTS, dkey, useLocal } from '../store'
+import { NAME, SPORTS, dkey, useLocal } from '../store'
 
 const DOW = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
-export default function Fitness({ onBack }: { onBack: () => void }) {
+export default function Fitness() {
   const [plan, setPlan] = useLocal<Record<string, string>>('fitness-plan', {})
   const [cur, setCur] = useState(() => { const d = new Date(); d.setDate(1); return d })
   const [sel, setSel] = useState<string | null>(null)
@@ -25,10 +25,9 @@ export default function Fitness({ onBack }: { onBack: () => void }) {
   }
   return (
     <div className="scroll">
-      <motion.button className="back" onClick={onBack} whileHover={{ x: -4 }} whileTap={{ scale: .85 }}><Back /></motion.button>
       <p className="eyebrow">Fitness planning</p>
-      <h1><b>Get fit</b><br />ton planning sport</h1>
-      <motion.div className="card" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
+      <h1><b>Get fit</b> {NAME},<br />ton planning sport</h1>
+      <motion.div className="card glass" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
         <div className="row" style={{ marginBottom: 12 }}>
           <motion.button className="round" whileHover={{ scale: 1.12 }} whileTap={{ scale: .85 }} onClick={() => setCur(new Date(y, m - 1, 1))}><Prev /></motion.button>
           <b style={{ textTransform: 'capitalize' }}>{cur.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}</b>
@@ -49,7 +48,7 @@ export default function Fitness({ onBack }: { onBack: () => void }) {
           })}
         </div>
       </motion.div>
-      <div className="card row"><div><h3>Ce mois-ci</h3><div className="mute">séances planifiées</div></div>
+      <div className="card glass row"><div><h3>Ce mois-ci</h3><div className="mute">séances planifiées</div></div>
         <motion.div key={count} className="big" style={{ fontSize: 56, margin: 0 }} initial={{ scale: 1.4 }} animate={{ scale: 1 }}>{count}</motion.div></div>
       <AnimatePresence>
         {sel && (
