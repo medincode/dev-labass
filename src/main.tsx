@@ -5,7 +5,7 @@ import '@fontsource/outfit/600.css'
 import '@fontsource/fredoka/500.css'
 import '@fontsource/fredoka/600.css'
 import '@fontsource/fredoka/700.css'
-import '@fontsource/dm-serif-display/400-italic.css'
+import '@fontsource/dm-serif-display/400.css'
 import './index.css'
 import App from './App'
 

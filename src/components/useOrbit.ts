@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react'
  * Glisser = tourner (suit le doigt), relâcher = inertie, puis dérive lente qui continue.
  * Les positions sont écrites directement dans le DOM (transform) : aucun re-render React.
  */
-export function useOrbit(base: number[], radius: number, onSpin?: () => void) {
+export function useOrbit(base: number[], rx: number, ry: number, onSpin?: () => void) {
   const hub = useRef<HTMLDivElement>(null)
   const els = useRef<(HTMLElement | null)[]>([])
   const st = useRef({ theta: 0, omega: 0, idle: 0, drag: false, last: 0, lastT: 0, moved: 0 })
@@ -13,7 +13,7 @@ export function useOrbit(base: number[], radius: number, onSpin?: () => void) {
   const paint = () => base.forEach((b, i) => {
     const el = els.current[i]; if (!el) return
     const a = (b + st.current.theta) * Math.PI / 180
-    el.style.transform = `translate3d(${Math.cos(a) * radius}px,${Math.sin(a) * radius}px,0)`
+    el.style.transform = `translate3d(${Math.cos(a) * rx}px,${Math.sin(a) * ry}px,0)`
   })
 
   useEffect(() => {
@@ -34,7 +34,8 @@ export function useOrbit(base: number[], radius: number, onSpin?: () => void) {
 
   const angleOf = (e: React.PointerEvent) => {
     const r = hub.current!.getBoundingClientRect()
-    return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI
+    // angle paramétrique de l'ellipse : le doigt reste collé à l'icône
+    return Math.atan2((e.clientY - (r.top + r.height / 2)) / ry, (e.clientX - (r.left + r.width / 2)) / rx) * 180 / Math.PI
   }
   const bind = {
     onPointerDown: (e: React.PointerEvent) => {
