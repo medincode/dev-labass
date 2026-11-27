@@ -17,8 +17,11 @@ export function useOrbit(base: number[], rx: number, ry: number, onSpin?: () => 
   })
 
   useEffect(() => {
-    let raf = 0, t0 = performance.now()
+    let raf = 0, t0 = performance.now(), skip = false
     const loop = (t: number) => {
+      raf = requestAnimationFrame(loop)
+      // dérive lente : 30 images/s suffisent (moitié moins de travail), plein débit pendant le glisser
+      if (!st.current.drag && Math.abs(st.current.omega) < 12 && (skip = !skip)) return
       const dt = Math.min(.05, (t - t0) / 1000); t0 = t
       const s = st.current
       if (!s.drag) {
@@ -26,7 +29,6 @@ export function useOrbit(base: number[], rx: number, ry: number, onSpin?: () => 
         s.omega += (idle - s.omega) * (1 - Math.exp(-dt / 1.8))   // freine jusqu'à la vitesse de dérive
         if (Math.abs(s.omega) > .05) { s.theta += s.omega * dt; paint() }
       }
-      raf = requestAnimationFrame(loop)
     }
     paint(); raf = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(raf)
