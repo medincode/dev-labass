@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import AnimatedNumber from '../components/AnimatedNumber'
+import { RESTART } from '../data/quotes'
 import Confirm from '../components/Confirm'
 import Icon3D from '../components/Icon3D'
 import TitleLogo from '../components/TitleLogo'
@@ -13,6 +15,7 @@ const coach = (d: number) => d === 0 ? `Nouveau départ, ${NAME}. Chaque jour co
 export default function CounterPage({ id, title, sub, bg, illus }: Props) {
   const [c, setC] = useLocal<C>('counter-' + id, newCounter())
   const [ask, setAsk] = useState(false)
+  const [restart, setRestart] = useState<string | null>(null)
   const [, tick] = useState(0)
   useEffect(() => { const t = setInterval(() => tick(x => x + 1), 60000); return () => clearInterval(t) }, [])
   const days = daysSince(c)
@@ -20,7 +23,11 @@ export default function CounterPage({ id, title, sub, bg, illus }: Props) {
   const lens = c.history.map(h => Math.floor((h.end - h.start) / DAY))
   const best = Math.max(days, ...lens, 0)
   const avg = lens.length ? Math.round(lens.reduce((a, b) => a + b, 0) / lens.length) : days
-  const reset = () => { setC({ start: Date.now(), history: [...c.history, { start: c.start, end: Date.now() }] }); setAsk(false) }
+  const reset = () => {
+    setC({ start: Date.now(), history: [...c.history, { start: c.start, end: Date.now() }] }); setAsk(false)
+    setRestart(RESTART[Math.floor(Math.random() * RESTART.length)].replace('{n}', NAME))
+  }
+  useEffect(() => { if (!restart) return; const t = setTimeout(() => setRestart(null), 14000); return () => clearTimeout(t) }, [restart])
   return (
     <div className="scroll">
       <TitleLogo name={id === 'fap' ? 'stayclean' : 'eatclean'} alt={title} />
@@ -28,10 +35,17 @@ export default function CounterPage({ id, title, sub, bg, illus }: Props) {
       <motion.div className="hero glass center" style={{ '--t': bg } as React.CSSProperties} initial={{ scale: .94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
         <Icon3D name={illus} size={150} float />
         {days >= 7 && <Icon3D name="flame" size={44} float style={{ position: 'absolute', right: 18, top: 18 }} />}
-        <motion.div key={days} className="big" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>{days}</motion.div>
+        <div className="big"><AnimatedNumber value={days} /></div>
         <div>jour{days > 1 ? 's' : ''} · {hours}h depuis le dernier relapse</div>
         <p className="msg">{coach(days)}</p>
       </motion.div>
+      <AnimatePresence>
+        {restart && (
+          <motion.div className="card glass restart" initial={{ opacity: 0, y: -14, scale: .95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: .95 }} onClick={() => setRestart(null)}>
+            <Icon3D name="flame" size={52} float /><p>{restart}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="row" style={{ gap: 10, marginBottom: 14 }}>
         {[[best, 'meilleur streak'], [c.history.length, 'relapses'], [avg, 'moy. jours']].map(([v, l]) => (
           <motion.div key={l} whileHover={{ y: -4, scale: 1.04 }} className="stat glass"><b>{v}</b><small>{l}</small></motion.div>

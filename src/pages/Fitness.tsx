@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Icon3D from '../components/Icon3D'
 import Portal from '../components/Portal'
+import { useRail } from '../components/useRail'
 import TitleLogo from '../components/TitleLogo'
 import { Close, Next, Prev } from '../components/Glyph'
 import { award } from '../game'
@@ -18,12 +19,7 @@ export default function Fitness() {
   const [done, setDone] = useLocal<Record<string, string[]>>('prog-done', {})
   const group = GROUPS.find(g => g.id === grp)
   const openGroup = (id: string) => { setGrp(id); setProg(GROUPS.find(x => x.id === id)!.ids[0]) }
-  const rail = useRef<HTMLDivElement>(null)
-  const drag = useRef({ on: false, x: 0, left: 0, moved: false })
-  const scrollRail = (d: number) => rail.current?.scrollBy({ left: d * 216, behavior: 'smooth' })
-  const pd = (e: React.PointerEvent) => { if (e.pointerType !== 'mouse') return; drag.current = { on: true, x: e.clientX, left: rail.current!.scrollLeft, moved: false } }
-  const pm = (e: React.PointerEvent) => { const d = drag.current; if (!d.on) return; const dx = e.clientX - d.x; if (Math.abs(dx) > 5) d.moved = true; rail.current!.scrollLeft = d.left - dx }
-  const pu = () => { drag.current.on = false }
+  const rail = useRail(216)
   const pid = prog || group?.ids[0] || ''
   const dk = `${dkey()}:${pid}`
   const exDone = done[dk] ?? []
@@ -82,13 +78,13 @@ export default function Fitness() {
         <div className="row" style={{ marginBottom: 6 }}>
           <h3 style={{ margin: 0 }}>Tes sports</h3>
           <div className="row" style={{ gap: 8 }}>
-            <motion.button className="round glass" aria-label="Précédent" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => scrollRail(-1)}><Prev /></motion.button>
-            <motion.button className="round glass" aria-label="Suivant" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => scrollRail(1)}><Next /></motion.button>
+            <motion.button className="round glass" aria-label="Précédent" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => rail.by(-1)}><Prev /></motion.button>
+            <motion.button className="round glass" aria-label="Suivant" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => rail.by(1)}><Next /></motion.button>
           </div>
         </div>
-        <div ref={rail} className="sportrail" onPointerDown={pd} onPointerMove={pm} onPointerUp={pu} onPointerLeave={pu}>
+        <div ref={rail.ref} className="sportrail" {...rail.bind}>
           {GROUPS.map(g => (
-            <motion.button key={g.id} className="sitem" onClick={() => { if (!drag.current.moved) openGroup(g.id) }} whileHover={{ y: -4 }} whileTap={{ scale: .92 }}>
+            <motion.button key={g.id} className="sitem" onClick={() => { if (!rail.moved()) openGroup(g.id) }} whileHover={{ y: -4 }} whileTap={{ scale: .92 }}>
               <Icon3D name={g.icon} size={62} /><b>{g.label}</b>
               {g.ids.length > 1 && <small>V1 · V2 · V3</small>}
             </motion.button>
@@ -100,8 +96,8 @@ export default function Fitness() {
         {sel && (
           <motion.div className="sheet" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSel(null)}>
             <motion.div initial={{ y: 400 }} animate={{ y: 0 }} exit={{ y: 400 }} transition={{ type: 'spring', damping: 24, stiffness: 260 }} onClick={e => e.stopPropagation()}>
-              <b>{new Date(sel + 'T12:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</b>
-              <small className="mute">Touche pour ajouter ou retirer, tu peux en choisir plusieurs.</small>
+              <b className="sheet-title">{new Date(sel + 'T12:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</b>
+              <small className="mute" style={{ display: 'block' }}>Touche pour ajouter ou retirer, tu peux en choisir plusieurs.</small>
               <div className="sports">
                 {SPORTS.map((s, i) => {
                   const on = selActs.includes(s.id)

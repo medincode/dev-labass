@@ -26,4 +26,5 @@ for (const f of readdirSync('src/assets/brand').filter(f => /^title-.*\.png$/.te
   await sharp(await sharp(src).trim({ threshold: 8 }).toBuffer()).resize({ width: 560, withoutEnlargement: true }).webp({ lossless: true, effort: 6 }).toFile(src.replace('.png', '.webp'))
   unlinkSync(src)
 }
+await sharp('src/assets/brand/mascot.webp').toFile('/dev/null').catch(() => {})
 console.log('brand OK')

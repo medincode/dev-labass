@@ -58,7 +58,11 @@ export const SPORTS = [
   { id: 'ice', label: 'Ice bath', c: '#bcd8f5' },
 ] as const
 
-export const NAME = 'Mehdi'
+export type Settings = { theme: 'auto' | 'light' | 'dark'; name: string; reduceMotion: boolean; blur: boolean }
+export const DEFAULT_SETTINGS: Settings = { theme: 'auto', name: 'Mehdi', reduceMotion: false, blur: true }
+const stored = (): Partial<Settings> => { try { return JSON.parse(localStorage.getItem('settings') || '{}') } catch { return {} } }
+/** Prénom affiché partout (réglable dans Paramètres, lu au chargement). */
+export const NAME = stored().name?.trim() || 'Mehdi'
 export const hello = () => { const h = new Date().getHours(); return h < 5 ? 'Bonne nuit' : h < 12 ? 'Bonjour' : h < 18 ? 'Salut' : 'Bonsoir' }
 
 /** Planning : plusieurs activités par jour (anciennes données = une seule chaîne). */

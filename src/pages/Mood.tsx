@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Next, Prev } from '../components/Glyph'
+import { useRail } from '../components/useRail'
 import Icon3D from '../components/Icon3D'
 import TitleLogo from '../components/TitleLogo'
 import { award, useGame } from '../game'
@@ -17,11 +19,11 @@ export default function Mood() {
   const max = Math.max(1, ...counts.map(c => c.n))
   const top = [...counts].sort((a, b) => b.n - a.n)[0]
   const days = Array.from({ length: 28 }).map((_, i) => { const d = new Date(); d.setDate(d.getDate() - 27 + i); return { d, id: log[dkey(d)] } })
-  const rail = useRef<HTMLDivElement>(null)
+  const rail = useRail(122)
   const [focus, setFocus] = useState(Math.max(0, MOODS.findIndex(m => m.id === cur)))
   const W = 122
-  const go = (i: number) => rail.current?.scrollTo({ left: i * W, behavior: 'smooth' })
-  useEffect(() => { rail.current?.scrollTo({ left: focus * W }) }, [])  // eslint-disable-line react-hooks/exhaustive-deps
+  const go = (i: number) => rail.ref.current?.scrollTo({ left: i * W, behavior: 'smooth' })
+  useEffect(() => { rail.ref.current?.scrollTo({ left: focus * W }) }, [])  // eslint-disable-line react-hooks/exhaustive-deps
   const shown = MOODS[focus].id
   const pick = (id: string) => { setLog({ ...log, [g.today]: id }); award('mood:' + g.today, 10) }
   return (
@@ -29,10 +31,12 @@ export default function Mood() {
       <TitleLogo name="mood" alt="Mood-o-meter" />
       <p className="sub">Alors {NAME}, comment tu te sens ?</p>
       <motion.div className="hero glass" style={{ '--t': 'var(--peach)' } as React.CSSProperties} initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-        <div ref={rail} className="carousel" onScroll={e => setFocus(Math.min(MOODS.length - 1, Math.max(0, Math.round(e.currentTarget.scrollLeft / W))))}>
+        <button className="arr l glass" aria-label="Précédent" onClick={() => rail.by(-1)}><Prev /></button>
+        <button className="arr r glass" aria-label="Suivant" onClick={() => rail.by(1)}><Next /></button>
+        <div ref={rail.ref} {...rail.bind} className="carousel" onScroll={e => setFocus(Math.min(MOODS.length - 1, Math.max(0, Math.round(e.currentTarget.scrollLeft / W))))}>
           {MOODS.map((m, i) => (
             <motion.button key={m.id} className={'citem' + (focus === i ? ' focus' : '') + (cur === m.id ? ' chosen' : '')} aria-label={m.label}
-              onClick={() => { go(i); pick(m.id) }} whileTap={{ scale: .94 }}>
+              onClick={() => { if (rail.moved()) return; go(i); pick(m.id) }} whileTap={{ scale: .94 }}>
               <Icon3D name={'mood-' + m.id} size={focus === i ? 96 : 68} float={focus === i} />
               <b>{m.label}</b>
               {cur === m.id && <motion.span className="chip glass" initial={{ scale: 0 }} animate={{ scale: 1 }}>Mon mood</motion.span>}
