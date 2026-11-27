@@ -25,3 +25,10 @@ document.addEventListener('visibilitychange', () => document.documentElement.cla
     clearTimeout(t); t = window.setTimeout(() => { on = false; h.classList.remove('scrolling') }, 150)
   }, { capture: true, passive: true })
 }
+
+// Splash : logo Labass affiché au démarrage, fondu une fois l'app prête (≥ 900 ms pour qu'il soit lisible).
+{
+  const el = document.getElementById('splash'), t0 = performance.now()
+  const hide = () => setTimeout(() => { if (!el) return; el.style.opacity = '0'; el.style.pointerEvents = 'none'; setTimeout(() => el.remove(), 500) }, Math.max(0, 900 - (performance.now() - t0)))
+  document.readyState === 'complete' ? hide() : window.addEventListener('load', hide, { once: true })
+}

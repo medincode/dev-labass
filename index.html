@@ -12,6 +12,10 @@
   </head>
   <body>
     <div id="root"></div>
+    <div id="splash" style="position:fixed;inset:0;z-index:999;display:grid;place-items:center;background:linear-gradient(160deg,#f3ecff 0%,#e9f4f6 55%,#fdf0e6 100%);transition:opacity .45s ease">
+      <img src="/src/assets/brand/logo.webp" alt="Labass" style="width:min(56vw,240px);height:auto;animation:splashpop .7s cubic-bezier(.2,.9,.3,1.2) both" />
+    </div>
+    <style>@keyframes splashpop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}</style>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
