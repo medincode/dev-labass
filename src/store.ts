@@ -63,7 +63,7 @@ export const SPORTS = [
 ] as const
 
 export type Settings = { theme: 'auto' | 'light' | 'dark'; name: string; reduceMotion: boolean; blur: boolean }
-export const DEFAULT_SETTINGS: Settings = { theme: 'auto', name: 'Mehdi', reduceMotion: false, blur: true }
+export const DEFAULT_SETTINGS: Settings = { theme: 'light', name: 'Mehdi', reduceMotion: false, blur: true }
 const stored = (): Partial<Settings> => { try { return JSON.parse(localStorage.getItem('settings') || '{}') } catch { return {} } }
 /** Prénom affiché partout (réglable dans Paramètres, lu au chargement). */
 export const NAME = stored().name?.trim() || 'Mehdi'
