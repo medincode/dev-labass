@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Labass</string>
+    <string name="title_activity_main">Labass</string>
+    <string name="package_name">com.labass.health</string>
+    <string name="custom_url_scheme">com.labass.health</string>
+</resources>
