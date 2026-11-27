@@ -1,5 +1,8 @@
 name: Build APK
-on: { workflow_dispatch: {} }
+on:
+  workflow_dispatch:
+  push:
+    tags: ['apk-v*']   # git tag apk-v1.2.3 && git push origin apk-v1.2.3  → build + release
 permissions:
   contents: write
 jobs:
