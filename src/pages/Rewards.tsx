@@ -10,7 +10,7 @@ export default function Rewards() {
   return (
     <div className="scroll">
       <TitleLogo name="rewards" alt="Récompenses" />
-      <p className="sub">Le niveau de {NAME}</p>
+      <p className="sub">Ton niveau et tes badges</p>
 
       <motion.div className="hero glass center" style={{ '--t': 'var(--yel)' } as React.CSSProperties} initial={{ scale: .94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
         <Icon3D name="trophy" size={120} float />

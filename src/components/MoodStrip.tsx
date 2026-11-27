@@ -3,7 +3,7 @@ import Icon3D from './Icon3D'
 import { Arrow, Next, Prev } from './Glyph'
 import { useRail } from './useRail'
 import { award, useGame } from '../game'
-import { MOODS, NAME, useLocal } from '../store'
+import { MOODS, useLocal } from '../store'
 
 /** Version compacte du mood-o-meter pour l'accueil : juste le slider d'humeurs. */
 export default function MoodStrip({ onMore }: { onMore: () => void }) {
@@ -15,7 +15,7 @@ export default function MoodStrip({ onMore }: { onMore: () => void }) {
   return (
     <motion.div className="card glass" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
       <div className="row" style={{ marginBottom: 4 }}>
-        <h3 style={{ margin: 0 }}>{cur ? `Ton mood, ${NAME}` : `Comment tu te sens, ${NAME} ?`}</h3>
+        <h3 style={{ margin: 0 }}>{cur ? 'Ton mood du jour' : 'Comment tu te sens ?'}</h3>
         <button className="more" onClick={onMore}>Stats <Arrow /></button>
       </div>
       <div className="stripwrap">

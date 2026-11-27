@@ -48,8 +48,11 @@ export default function Fitness() {
   const selActs = sel ? acts(plan, sel) : []
   return (
     <div className="scroll">
-      <TitleLogo name="getfit" alt="Get fit" />
-      <p className="sub">{NAME}, ton planning sport</p>
+      <div className="brandrow titlerow">
+        <TitleLogo name="getfit" alt="Get fit" />
+        <motion.span key={count} className="vbadge glass" initial={{ scale: 1.3 }} animate={{ scale: 1 }}>{count} séance{count > 1 ? 's' : ''} ce mois</motion.span>
+      </div>
+      <p className="sub">Ton planning sport</p>
       <motion.div className="card glass" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
         <div className="row" style={{ marginBottom: 12 }}>
           <motion.button className="round" whileHover={{ scale: 1.12 }} whileTap={{ scale: .85 }} onClick={() => setCur(new Date(y, m - 1, 1))}><Prev /></motion.button>
@@ -72,8 +75,6 @@ export default function Fitness() {
           })}
         </div>
       </motion.div>
-      <div className="card glass row"><div><h3>Ce mois-ci</h3><div className="mute">séances planifiées</div></div>
-        <motion.div key={count} className="big" style={{ fontSize: 56, margin: 0 }} initial={{ scale: 1.4 }} animate={{ scale: 1 }}>{count}</motion.div></div>
       <div className="card glass">
         <div className="row" style={{ marginBottom: 6 }}>
           <h3 style={{ margin: 0 }}>Tes sports</h3>

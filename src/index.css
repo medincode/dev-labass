@@ -278,7 +278,7 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .strip{gap:4px}
 
 .quote2{margin:6px 8px 22px;padding:0;text-align:center}
-.quote2 blockquote{margin:0;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:400;font-size:19px;line-height:1.5;color:var(--ink);opacity:.62;letter-spacing:.005em}
+.quote2 blockquote{margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:500;font-size:23px;line-height:1.35;color:var(--ink);opacity:.62;letter-spacing:.005em}
 .qm{font-size:40px;line-height:0;vertical-align:-.28em;opacity:.55;color:var(--lav);margin:0 4px;font-weight:400}
 .qs-title{margin:0 0 10px 4px}
 .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -292,3 +292,14 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .mhead{display:grid;grid-template-columns:44px 1fr 44px;align-items:start;margin-bottom:12px}
 .mtitle{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
 .mtitle h3{margin:0}
+
+.titlerow{margin-bottom:6px}.titlerow .title-logo{margin:0}
+
+.nav .mask-ico{position:relative;z-index:1;display:block}
+
+/* auras : une seule couleur unie, ronds fins autour */
+.glow{background:radial-gradient(circle,rgba(160,150,240,.38),rgba(160,150,240,.14) 55%,transparent 72%)}
+.aura{-webkit-mask:none;mask:none;background:none!important;border:2px solid rgba(150,140,235,.38);--c:#9a8cf0}
+.aura.a2{border-width:1.5px;border-color:rgba(150,140,235,.26)}
+html[data-theme=dark] .aura{border-color:rgba(190,180,255,.4);--c:#c4baff}
+html[data-theme=dark] .aura.a2{border-color:rgba(190,180,255,.28)}

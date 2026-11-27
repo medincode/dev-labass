@@ -29,7 +29,7 @@ export default function Mood() {
   return (
     <div className="scroll">
       <TitleLogo name="mood" alt="Mood-o-meter" />
-      <p className="sub">Alors {NAME}, comment tu te sens ?</p>
+      <p className="sub">Comment tu te sens aujourd'hui ?</p>
       <motion.div className="hero glass" style={{ '--t': 'var(--peach)' } as React.CSSProperties} initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
         {rail.can && <button className="arr l glass" aria-label="Précédent" onClick={() => rail.by(-1)}><Prev /></button>}
         {rail.can && <button className="arr r glass" aria-label="Suivant" onClick={() => rail.by(1)}><Next /></button>}

@@ -1,5 +1,5 @@
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { DEFAULT_SETTINGS, useLocal, type Settings } from './store'
 import { Back } from './components/Glyph'
 import Home, { type Route } from './pages/Home'
@@ -22,16 +22,7 @@ export default function App() {
   // La page courante vit dans l'URL (#/fitness) : elle survit au refresh et le bouton retour fonctionne.
   const [r, setRoute] = useState<Route>(fromHash)
   const setR = (n: Route) => { if (n !== r) location.hash = '/' + n }
-  // Pile de navigation interne : le bouton retour revient à l'écran précédent (ou à l'accueil).
-  const stack = useRef<Route[]>([r]), backing = useRef(false)
-  useEffect(() => {
-    if (backing.current) { backing.current = false; return }
-    if (stack.current[stack.current.length - 1] !== r) stack.current.push(r)
-  }, [r])
-  const goBack = () => {
-    stack.current.pop(); const prev = stack.current[stack.current.length - 1] ?? 'home'
-    backing.current = true; location.hash = '/' + prev
-  }
+  const goBack = () => { location.hash = '/home' }  // le retour ramène toujours à l'accueil
   useEffect(() => { const on = () => setRoute(fromHash()); window.addEventListener('hashchange', on); return () => window.removeEventListener('hashchange', on) }, [])
   const [st] = useLocal<Settings>('settings', DEFAULT_SETTINGS)
   useEffect(() => {

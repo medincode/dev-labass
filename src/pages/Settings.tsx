@@ -33,7 +33,7 @@ export default function SettingsPage() {
   return (
     <div className="scroll">
       <h1><b>Paramètres</b></h1>
-      <p className="sub">Réglages de {NAME}</p>
+      <p className="sub">Tes réglages</p>
 
       <div className="card glass">
         <h3>Apparence</h3>

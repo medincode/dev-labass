@@ -32,7 +32,7 @@ export default function CounterPage({ id, title, sub, bg, illus }: Props) {
   return (
     <div className="scroll">
       <TitleLogo name={id === 'fap' ? 'stayclean' : 'eatclean'} alt={title} />
-      <p className="sub">{sub}, {NAME}</p>
+      <p className="sub">{sub}</p>
       <motion.div className="hero glass center" style={{ '--t': bg } as React.CSSProperties} initial={{ scale: .94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
         <Icon3D name={illus} size={150} float />
         {days >= 7 && <Icon3D name="flame" size={44} float style={{ position: 'absolute', right: 18, top: 18 }} />}

@@ -1,7 +1,8 @@
+import banana from '../assets/icons/banana.webp'
+
 const P = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' } as const
 const paths: Record<string, React.ReactNode> = {
   home: <><path d="M3 11.5 12 4l9 7.5" /><path d="M5.5 10.5V20h13v-9.5" /><path d="M10 20v-5h4v5" /></>,
-  fap: <><path d="M15 3l2-.8" /><path d="M15 3.2l2 .7c1 5-.5 10.4-4 13.8-2.6 2.5-6 3.4-9 2.6l-1-1.6c3.2-.6 5.6-2.4 7.3-5.2C12 10.6 13 7 12.8 4.2z" /></>,
   cheat: <><path d="M4 11c0-4 3.6-7 8-7s8 3 8 7z" /><path d="M3.5 14.2c1.2 1 2.2 1 3.5 0s2.3-1 3.5 0 2.3 1 3.5 0 2.3-1 3.5 0" /><path d="M4.5 17h15v1a2.5 2.5 0 0 1-2.5 2.5H7A2.5 2.5 0 0 1 4.5 18z" /></>,
   fitness: <><path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11" /></>,
   meditation: <><path d="M3 9h11a3 3 0 1 0-3-3" /><path d="M3 14h15a3 3 0 1 1-3 3" /><path d="M3 19h6" /></>,
@@ -16,5 +17,10 @@ const paths: Record<string, React.ReactNode> = {
   refresh: <><path d="M20 11a8 8 0 1 0-2.3 5.7" /><path d="M20 4v7h-7" /></>,
 }
 export default function NavIcon({ name, size = 26 }: { name: string; size?: number }) {
+  // La banane est une icône « trait » générée par imagegen, utilisée comme masque pour suivre la couleur du thème.
+  if (name === 'fap') {
+    const m = `url(${banana})`
+    return <span className="mask-ico" style={{ width: size, height: size, background: 'currentColor', WebkitMaskImage: m, maskImage: m, WebkitMaskSize: 'contain', maskSize: 'contain', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center' }} />
+  }
   return <svg width={size} height={size} viewBox="0 0 24 24" {...P}>{paths[name]}</svg>
 }

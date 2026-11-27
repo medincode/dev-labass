@@ -4,7 +4,6 @@ import Icon3D from '../components/Icon3D'
 import TitleLogo from '../components/TitleLogo'
 import VideoPlayer from '../components/VideoPlayer'
 import { award, useGame } from '../game'
-import { NAME } from '../store'
 
 const LEVELS = [
   { n: 1, c: '#b9e6d6', label: 'Niveau 1', sub: 'Débutant' },
@@ -18,7 +17,7 @@ export default function Meditation() {
   return (
     <div className="scroll">
       <TitleLogo name="breathgood" alt="Breath good" />
-      <p className="sub">{NAME}, méthode Wim Hof</p>
+      <p className="sub">Méthode Wim Hof</p>
       <div className="tabs glass" role="tablist">
         {LEVELS.map(l => (
           <motion.button key={l.n} role="tab" aria-selected={lvl === l.n} className={lvl === l.n ? 'on' : ''} onClick={() => setLvl(l.n)} whileTap={{ scale: .92 }}>
