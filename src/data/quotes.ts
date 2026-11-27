@@ -38,12 +38,3 @@ export const QUOTES = [
   "Choisis le progrès, pas la pression.",
   "Aujourd'hui compte autant que le plan sur dix ans.",
 ]
-export const RESTART = [
-  "Un relapse n'efface pas tes jours de force, il te donne une leçon. Repars, {n}.",
-  "Tu es tombé, {n}. Ce qui compte : tu es déjà en train de te relever.",
-  "Jour 0, ce n'est pas un échec, c'est un nouveau départ avec plus d'expérience.",
-  "Respire, {n}. Identifie ce qui a déclenché la chute et prépare ta parade.",
-  "Les plus forts ne sont pas ceux qui ne tombent jamais, mais ceux qui reviennent à chaque fois.",
-  "Pas de culpabilité, {n} : juste une décision, maintenant, de reprendre.",
-  "Chaque nouveau départ est plus solide que le précédent. Go.",
-]

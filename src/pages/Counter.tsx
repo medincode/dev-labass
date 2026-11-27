@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import AnimatedNumber from '../components/AnimatedNumber'
-import { RESTART } from '../data/quotes'
 import Confirm from '../components/Confirm'
 import Icon3D from '../components/Icon3D'
 import NavIcon from '../components/NavIcons'
@@ -16,7 +15,6 @@ const coach = (d: number) => d === 0 ? `Nouveau départ, ${NAME}. Chaque jour co
 export default function CounterPage({ id, title, sub, bg, illus }: Props) {
   const [c, setC] = useLocal<C>('counter-' + id, newCounter())
   const [ask, setAsk] = useState(false)
-  const [restart, setRestart] = useState<string | null>(null)
   const [, tick] = useState(0)
   useEffect(() => { const t = setInterval(() => tick(x => x + 1), 60000); return () => clearInterval(t) }, [])
   const days = daysSince(c)
@@ -26,9 +24,7 @@ export default function CounterPage({ id, title, sub, bg, illus }: Props) {
   const avg = lens.length ? Math.round(lens.reduce((a, b) => a + b, 0) / lens.length) : days
   const reset = () => {
     setC({ start: Date.now(), history: [...c.history, { start: c.start, end: Date.now() }] }); setAsk(false)
-    setRestart(RESTART[Math.floor(Math.random() * RESTART.length)].replace('{n}', NAME))
   }
-  useEffect(() => { if (!restart) return; const t = setTimeout(() => setRestart(null), 14000); return () => clearTimeout(t) }, [restart])
   return (
     <div className="scroll">
       <TitleLogo name={id === 'fap' ? 'stayclean' : 'eatclean'} alt={title} />
@@ -40,13 +36,6 @@ export default function CounterPage({ id, title, sub, bg, illus }: Props) {
         <div>jour{days > 1 ? 's' : ''} · {hours}h depuis le dernier relapse</div>
         <p className="msg">{coach(days)}</p>
       </motion.div>
-      <AnimatePresence>
-        {restart && (
-          <motion.div className="card glass restart" initial={{ opacity: 0, y: -14, scale: .95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: .95 }} onClick={() => setRestart(null)}>
-            <Icon3D name="flame" size={52} float /><p>{restart}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
       <div className="row" style={{ gap: 10, marginBottom: 14 }}>
         {[[best, 'meilleur streak', 'trophy'], [c.history.length, 'relapses', 'heartbreak'], [avg, 'moy. jours', 'chart']].map(([v, l, ic]) => (
           <motion.div key={l} whileHover={{ y: -4, scale: 1.04 }} className="stat glass"><NavIcon name={ic as string} size={22} /><b>{v}</b><small>{l}</small></motion.div>
