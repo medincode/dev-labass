@@ -19,7 +19,7 @@ export default function VideoPlayer({ src, onEnded, onStart }: { src: string; on
   const audio = mode === 'audio'
   const hide = useRef<number>(0)
   const wake = () => { setUi(true); clearTimeout(hide.current); hide.current = window.setTimeout(() => v.current && !v.current.paused && setUi(false), 2500) }
-  useEffect(() => () => { clearTimeout(hide.current); keepAwake(false) }, [])
+  useEffect(() => () => { clearTimeout(hide.current); document.documentElement.classList.remove('video-on'); keepAwake(false) }, [])
   // Le wake lock web saute quand l'onglet passe en arrière-plan : on le reprend au retour si ça joue.
   useEffect(() => { const on = () => { if (!document.hidden && v.current && !v.current.paused) keepAwake(true) }; document.addEventListener('visibilitychange', on); return () => document.removeEventListener('visibilitychange', on) }, [])
   const setVolume = (x: number) => { setVol(x); if (v.current) { v.current.volume = x; v.current.muted = x === 0 } }
@@ -46,9 +46,9 @@ export default function VideoPlayer({ src, onEnded, onStart }: { src: string; on
         </div>
       )}
       <video ref={v} src={src} preload="metadata" playsInline onClick={toggle}
-        onPlay={() => { setPlaying(true); wake(); keepAwake(true); onStart?.() }} onPause={() => { setPlaying(false); setUi(true); keepAwake(false) }}
+        onPlay={() => { document.documentElement.classList.add('video-on'); setPlaying(true); wake(); keepAwake(true); onStart?.() }} onPause={() => { document.documentElement.classList.remove('video-on'); setPlaying(false); setUi(true); keepAwake(false) }}
         onTimeUpdate={e => setT(e.currentTarget.currentTime)} onLoadedMetadata={e => setDur(e.currentTarget.duration)}
-        onEnded={() => { setPlaying(false); keepAwake(false); onEnded?.() }} />
+        onEnded={() => { document.documentElement.classList.remove('video-on'); setPlaying(false); keepAwake(false); onEnded?.() }} />
       <AnimatePresence>
         {!playing && (
           <motion.button className="vp-big glass" aria-label="Lecture" onClick={toggle} initial={{ scale: .6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 1.4, opacity: 0 }}

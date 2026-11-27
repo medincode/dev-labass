@@ -9,6 +9,7 @@ export default defineConfig({
   define: { __APP_VERSION__: JSON.stringify(version) },
   plugins: [react(), { name: 'html-version', transformIndexHtml: (h: string) => h.replace('%APP_VERSION%', version) }],
   build: {
+    target: 'es2022', cssMinify: true, reportCompressedSize: false,
     rollupOptions: { output: { manualChunks: (id: string) => (id.includes('framer-motion') || id.includes('motion-dom') ? 'motion' : id.includes('node_modules') ? 'vendor' : undefined) } },
   },
 })

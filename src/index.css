@@ -455,3 +455,8 @@ html[data-theme=dark] .aura.a1{border-color:rgba(200,203,218,.22)!important}
 /* perf : pas d'animation décorative en boucle pendant le scroll, pas de will-change permanent */
 html.scrolling *,html.scrolling *::before,html.scrolling *::after{animation-play-state:paused!important}
 .float{will-change:auto}
+/* perf : auras en 30 i/s (rotation linéaire = rendu identique), animations décoratives en pause pendant la vidéo */
+.aura.a1{animation-timing-function:steps(420,end)!important}
+.aura.a2{animation-timing-function:steps(660,end)!important}
+html.video-on *,html.video-on *::before,html.video-on *::after{animation-play-state:paused!important}
+html.video-on .vp-wave i,html.video-on .vp-wave i::before{animation-play-state:running!important}

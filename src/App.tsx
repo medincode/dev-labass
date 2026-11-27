@@ -1,14 +1,14 @@
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { DEFAULT_SETTINGS, useLocal, type Settings } from './store'
 import { Back } from './components/Glyph'
 import Home, { type Route } from './pages/Home'
 import CounterPage from './pages/Counter'
-import Fitness from './pages/Fitness'
-import Meditation from './pages/Meditation'
-import Mood from './pages/Mood'
-import Rewards from './pages/Rewards'
-import SettingsPage from './pages/Settings'
+const Fitness = lazy(() => import('./pages/Fitness'))
+const Meditation = lazy(() => import('./pages/Meditation'))
+const Mood = lazy(() => import('./pages/Mood'))
+const Rewards = lazy(() => import('./pages/Rewards'))
+const SettingsPage = lazy(() => import('./pages/Settings'))
 import NavIcon from './components/NavIcons'
 import Toast from './components/Toast'
 
@@ -60,7 +60,7 @@ export default function App() {
         )}
       </AnimatePresence>
       <motion.div key={r} style={{ height: '100%' }} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .16, ease: 'easeOut' }}>
-        {page}
+        <Suspense fallback={null}>{page}</Suspense>
       </motion.div>
       <motion.nav className="nav glass" initial={{ y: 100 }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 200, damping: 18, delay: .25 }}>
         {NAV.map(n => (
