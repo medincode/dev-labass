@@ -57,12 +57,11 @@ export default function Home({ go }: { go: (r: Route) => void }) {
         <span className="float mascot-wrap"><img src={mascot} alt="" className="mascot" draggable={false} /></span>
         <span className="shadow" />
         {HUB.map((h, i) => (
-          <motion.button key={h.r} className={'bubble ' + h.cls} onClick={() => go(h.r)} whileHover={{ scale: 1.1 }} whileTap={{ scale: .9 }}
+          <motion.button key={h.r} className={'bubble ' + h.cls} aria-label={h.label} title={h.label} onClick={() => go(h.r)} whileHover={{ scale: 1.1 }} whileTap={{ scale: .9 }}
             initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 220, damping: 14, delay: .25 + i * .1 }}>
             <span className="float" style={{ animationDelay: `${i * .5}s` }}>
               <span className="orb2" style={{ '--t': h.c } as React.CSSProperties}><Icon3D name={h.icon} size={64} /></span>
             </span>
-            {h.label}
           </motion.button>
         ))}
       </motion.div>

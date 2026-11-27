@@ -284,3 +284,6 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .qs-item{border-radius:24px;padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:1px}
 .qs-item b{font-family:var(--display);font-size:20px;font-weight:600}.qs-item small{font-size:11px;color:var(--mute)}
+
+/* icônes du hub sans texte : orbite symétrique autour du bonhomme */
+.b0,.b1{top:calc(50% - 165px)}.b2,.b3{top:calc(50% + 73px)}
