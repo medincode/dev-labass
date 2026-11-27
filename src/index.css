@@ -3,7 +3,7 @@
   --lav:#b9bdff; --yel:#f6e07c; --mint:#b9e6d6; --peach:#f7cfbc; --rose:#ee8a78; --olive:#8d9b62; --sky:#7aa6ec;
   --display:'Fredoka','Outfit',system-ui,sans-serif;
   --glass:rgba(255,255,255,.46); --glass-brd:rgba(255,255,255,.75);
-  --qg1:#5f6374;--qg2:#c6cad8;--surf:rgba(255,255,255,.55); --surf-hi:rgba(255,255,255,.85); --ink2:var(--ink2); --track:rgba(0,0,0,.07); --sheet:#fbf9ff; --ghost:rgba(0,0,0,.07);
+  --qg1:#555a6c;--qg2:#d4d7e2;--surf:rgba(255,255,255,.55); --surf-hi:rgba(255,255,255,.85); --ink2:var(--ink2); --track:rgba(0,0,0,.07); --sheet:#fbf9ff; --ghost:rgba(0,0,0,.07);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body,#root{margin:0;height:100%}
@@ -371,3 +371,17 @@ html[data-theme=dark] .orbit .orb2{background:radial-gradient(circle at 30% 25%,
 .glow{width:250px;height:250px}
 .orbit{width:86px;height:86px;margin:-43px 0 0 -43px}
 .orbit .orb2{width:86px;height:86px}
+
+/* citation : un dégradé DANS chaque lettre (gris en haut -> un peu de blanc en bas) */
+.ql,.qm{background:linear-gradient(180deg,var(--qg1) 22%,var(--qg2) 92%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+/* 2 ronds (anneaux + point) en gris */
+.aura{border-color:rgba(120,124,140,.4)!important;--c:#8a8e9e}
+.aura.a2{border-color:rgba(120,124,140,.28)!important}
+.glow{background:radial-gradient(circle,rgba(130,134,150,.22),rgba(130,134,150,.08) 55%,transparent 72%)}
+html[data-theme=dark] .aura{border-color:rgba(200,203,218,.4)!important;--c:#b8bccb}
+html[data-theme=dark] .aura.a2{border-color:rgba(200,203,218,.26)!important}
+/* carte mood de l'accueil : padding réduit */
+.card.moodcard{padding:10px 12px 6px}
+.card.moodcard .sm{padding:4px 2px}
+.card.moodcard .strip{padding-top:4px;padding-bottom:20px;margin-bottom:-14px}

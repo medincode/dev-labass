@@ -13,7 +13,7 @@ export default function MoodStrip({ onMore }: { onMore: () => void }) {
   const cur = log[g.today]
   const pick = (id: string) => { if (rail.moved()) return; setLog({ ...log, [g.today]: id }); award('mood:' + g.today, 10) }
   return (
-    <motion.div className="card glass" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
+    <motion.div className="card glass moodcard" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
       <div className="row" style={{ marginBottom: 4 }}>
         <h3 style={{ margin: 0 }}>{cur ? 'Ton mood du jour' : 'Comment tu te sens ?'}</h3>
         <button className="more" onClick={onMore}>Stats <Arrow /></button>
