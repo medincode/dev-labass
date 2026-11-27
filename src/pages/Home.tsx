@@ -5,21 +5,24 @@ import MoodStrip from '../components/MoodStrip'
 import logo from '../assets/brand/logo.webp'
 import mascot from '../assets/brand/mascot.webp'
 import { QUOTES } from '../data/quotes'
-import { useGame } from '../game'
+import { useOrbit } from '../components/useOrbit'
+import { award, useGame } from '../game'
 import { NAME, acts, daysSince, dkey, hello, newCounter, useLocal, type Counter } from '../store'
 
 export type Route = 'home' | 'fap' | 'cheat' | 'fitness' | 'meditation' | 'mood' | 'rewards' | 'settings'
-const HUB: { r: Route; label: string; icon: string; c: string; cls: string }[] = [
-  { r: 'fap', label: 'Stay Clean', icon: 'nofap', c: 'var(--lav)', cls: 'b0' },
-  { r: 'fitness', label: 'Get fit', icon: 'fitness', c: 'var(--mint)', cls: 'b1' },
-  { r: 'cheat', label: 'Eat Clean', icon: 'cheat', c: 'var(--yel)', cls: 'b2' },
-  { r: 'meditation', label: 'Breath good', icon: 'meditation', c: 'var(--peach)', cls: 'b3' },
+const HUB: { r: Route; label: string; icon: string; c: string; angle: number }[] = [
+  { r: 'fap', label: 'Stay Clean', icon: 'nofap', c: 'var(--lav)', angle: -135 },
+  { r: 'fitness', label: 'Get fit', icon: 'fitness', c: 'var(--mint)', angle: -45 },
+  { r: 'meditation', label: 'Breath good', icon: 'meditation', c: 'var(--peach)', angle: 45 },
+  { r: 'cheat', label: 'Eat Clean', icon: 'cheat', c: 'var(--yel)', angle: 135 },
 ]
 const list = { show: { transition: { staggerChildren: .03 } } }
 const item = { hidden: { y: 26, opacity: 0, scale: .97 }, show: { y: 0, opacity: 1, scale: 1, transition: { type: 'spring' as const, stiffness: 260, damping: 20 } } }
 
 export default function Home({ go }: { go: (r: Route) => void }) {
   const g = useGame()
+  // Mini-jeu : les 4 menus sont des satellites qu'on fait tourner (glisser) et qui gardent leur élan.
+  const orbit = useOrbit(HUB.map(h => h.angle), 128, () => award('spin:' + dkey(), 5))
   // Citation du jour : tirée au hasard mais stable pour la journée (pas modifiable).
   const q = Math.abs([...dkey()].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)) % QUOTES.length
   const [fap] = useLocal<Counter>('counter-fap', newCounter())
@@ -56,17 +59,17 @@ export default function Home({ go }: { go: (r: Route) => void }) {
 
       <motion.div variants={item}><MoodStrip onMore={() => go('mood')} /></motion.div>
 
-      <motion.div className="hub" variants={item}>
+      <motion.div ref={orbit.hub} className="hub" variants={item}>
         <span className="glow" /><span className="aura a1" /><span className="aura a2" />
         <span className="float mascot-wrap"><img src={mascot} alt="" className="mascot" draggable={false} /></span>
         <span className="shadow" />
         {HUB.map((h, i) => (
-          <motion.button key={h.r} className={'bubble ' + h.cls} aria-label={h.label} title={h.label} onClick={() => go(h.r)} whileHover={{ scale: 1.1 }} whileTap={{ scale: .9 }}
-            initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 220, damping: 14, delay: .25 + i * .1 }}>
-            <span className="float" style={{ animationDelay: `${i * .5}s` }}>
-              <span className="orb2" style={{ '--t': h.c } as React.CSSProperties}><Icon3D name={h.icon} size={64} /></span>
-            </span>
-          </motion.button>
+          <span key={h.r} ref={el => { orbit.els.current[i] = el }} className="orbit" {...orbit.bind} onClick={() => { if (!orbit.wasDrag()) go(h.r) }}>
+            <motion.button className="obtn" aria-label={h.label} title={h.label} whileHover={{ scale: 1.1 }} whileTap={{ scale: .92 }}
+              initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 220, damping: 14, delay: .25 + i * .1 }}>
+              <span className="orb2" style={{ '--t': h.c } as React.CSSProperties}><Icon3D name={h.icon} size={54} /></span>
+            </motion.button>
+          </span>
         ))}
       </motion.div>
 
