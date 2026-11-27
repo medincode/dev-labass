@@ -442,3 +442,6 @@ html[data-theme=dark] .glass{background:rgba(34,28,50,.9)}
 .sm.on{background:none;border-color:transparent;box-shadow:none}
 .sm.on .float{border-radius:50%;padding:4px;background:var(--surf-hi);border:1px solid rgba(255,255,255,.8);box-shadow:0 6px 16px rgba(90,60,140,.16)}
 html[data-theme=dark] .sm.on .float{border-color:rgba(255,255,255,.25)}
+/* 1er rond (intérieur) plus clair */
+.aura.a1{border-color:rgba(190,194,208,.2)!important;--c:#d0d3de}
+html[data-theme=dark] .aura.a1{border-color:rgba(200,203,218,.22)!important}
