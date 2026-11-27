@@ -20,10 +20,10 @@ Mobile-first · pastel · illustrations « dessinées à la main » · prête à
 | | Module | Ce que ça fait |
 |---|---|---|
 | 😊 | **Mood-o-meter** | 6 smileys sur l'accueil, stats par humeur + 7 derniers jours |
-| 🔒 | **NoFap counter** | Jours sans relapse qui montent tout seuls, reset quand le streak tombe, meilleur streak / moyenne / historique |
-| 🍔 | **Cheat meal counter** | Même logique, pour la bouffe |
-| 🏋️ | **Fitness** | Calendrier mensuel : tape un jour → choisis ton sport (Surf, Tennis, Gym full body V1/V2/V3, Gym cardio, Run forest, Run & plouf beach, Stretching, Ice bath) |
-| 🧘 | **Méditation** | Respiration guidée animée + 3 niveaux de breathing Wim Hof en vidéo |
+| 🍌 | **Stay Clean** | Jours sans relapse qui montent tout seuls, reset quand le streak tombe, meilleur streak / moyenne / historique |
+| 🍔 | **Eat Clean** | Même logique, pour la bouffe |
+| 🏋️ | **Get fit** | Calendrier mensuel : tape un jour → choisis ton sport (Surf, Tennis, Gym full body V1/V2/V3, Gym cardio, Run forest, Run & plouf beach, Stretching, Ice bath) |
+| 🧘 | **Breath good** | Respiration guidée animée + 3 niveaux de breathing Wim Hof en vidéo |
 
 Toutes les données restent sur le téléphone (`localStorage`), aucun compte, aucun serveur.
 
@@ -38,6 +38,14 @@ npm run build      # build de prod dans dist/
 ## 🎬 Vidéos breathing
 
 Les 3 niveaux Wim Hof sont intégrés par URL YouTube (lecteur embarqué, connexion internet requise) : [niveau 1](https://www.youtube.com/watch?v=tybOi4hjZFQ) · [niveau 2](https://www.youtube.com/watch?v=YkE8AObpzm4) · [niveau 3](https://www.youtube.com/watch?v=u8j7Ir_cg0M).
+
+## ▲ Déploiement Vercel
+
+`vercel.json` est prêt (Vite, rewrite SPA, cache immutable sur `/assets`). Push sur la branche → déploiement automatique.
+
+## 🎮 Gamification
+
+XP, niveaux, quêtes du jour (mood, séance, respiration) et 5 badges. Tout est calculé localement.
 
 ## 📱 Générer l'APK
 
@@ -59,7 +67,7 @@ Il génère des images avec ton abonnement ChatGPT, sans clé API.
 npx -y codex-imagegen-mcp login          # ou --device sur une machine sans navigateur
 ```
 
-Les images générées vont dans `src/assets/illus/`. Style : trait noir fin imparfait, fond transparent, touches pastel.
+Les 29 icônes 3D (menus, sports, humeurs, badges) sont générées par `tools/gen-icons.sh` à partir de `tools/icons.tsv`, puis passées en WebP lossless par `node tools/optimize-images.mjs` (qui produit aussi favicon et icônes PWA). `node tools/android-icons.mjs` régénère les icônes launcher Android.
 
 ## 🗂️ Structure
 

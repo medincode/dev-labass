@@ -78,7 +78,7 @@ export default function Home({ go }: { go: (r: Route) => void }) {
       </motion.div>
 
       <motion.div className="card" variants={item}>
-        <div className="row"><h3>Stats du mood</h3><small className="mute">{Object.keys(log).length} jours</small></div>
+        <div className="row"><h3>Stats du mood</h3><small className="mute">{Object.keys(log).length} jour{Object.keys(log).length > 1 ? "s" : ""}</small></div>
         <div className="bars" style={{ marginBottom: 14 }}>
           {counts.map(c => (
             <div key={c.id}>
