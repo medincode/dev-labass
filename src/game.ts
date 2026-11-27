@@ -45,7 +45,7 @@ export function useGame() {
     quests: [
       { id: 'mood', label: 'Logger ton mood', xp: 10, done: !!moods[today] },
       { id: 'fit', label: 'Planifier ta séance', xp: 15, done: !!plan[today] },
-      { id: 'breath', label: 'Faire ta respiration', xp: 20, done: !!awards['breath:' + today] },
+      { id: 'breath', label: 'Finir une vidéo breathing', xp: 20, done: !!awards['breath:' + today] },
     ],
   }
 }

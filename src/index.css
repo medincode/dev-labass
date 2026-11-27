@@ -97,7 +97,18 @@ h3{font-size:18px;font-weight:600;margin:0 0 10px}
 .sheet>div{background:#ffffffe6;backdrop-filter:blur(24px);width:100%;border-radius:34px 34px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 24px);max-height:88%;overflow:auto}
 .sports{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
 .sport{border-radius:24px;padding:10px 6px;text-align:center;font-size:12px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px}
-video{object-fit:cover;width:100%;aspect-ratio:16/9;border:0;border-radius:22px;background:#000}
+video{object-fit:cover;width:100%;aspect-ratio:16/9;border:0;border-radius:22px;background:#000;display:block}
+.vp{position:relative;border-radius:22px;overflow:hidden;background:#000}
+.vp-big{position:absolute;left:50%;top:50%;translate:-50% -50%;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;color:#fff;background:#ffffff40;padding-left:4px}
+.vp-bar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:22px;color:#fff;background:#1b152499;border-color:#ffffff30}
+.vp-bar button{display:grid;place-items:center;height:30px;min-width:26px}
+.vp-bar small{font-size:11px;font-variant-numeric:tabular-nums;opacity:.9}
+.vp-rate{font-size:12px;font-weight:600;background:#ffffff26;border-radius:12px;padding:0 8px}
+.vp-track{flex:1;height:22px;display:flex;align-items:center;cursor:pointer;touch-action:none}
+.vp-track::before{content:'';position:absolute;height:6px;left:0;right:0;border-radius:4px;background:#ffffff40}
+.vp-track{position:relative}
+.vp-track i{position:relative;display:block;height:6px;border-radius:4px;background:linear-gradient(90deg,var(--yel),var(--rose))}
+.vp-track i b{position:absolute;right:-7px;top:-4px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 2px 6px #0006}
 .orb{width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#f2fbf7,var(--mint));display:grid;place-items:center;align-content:center;font-family:var(--display);font-weight:600;font-size:18px;box-shadow:0 0 0 14px #b9e6d666,0 0 0 30px #b9e6d633}
 .bars{display:flex;gap:8px;align-items:flex-end;height:140px}
 .bars div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;font-size:12px}
