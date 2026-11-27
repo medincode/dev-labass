@@ -407,7 +407,7 @@ html[data-theme=dark] .pill:not(.ghost):not(.danger){background:linear-gradient(
 .vp-wave i{flex:1;max-width:8px;border-radius:6px;background:linear-gradient(180deg,#d9ccff,#8a6fd0);opacity:.6;transform:scaleY(.35);transform-origin:center}
 .vp-wave.on i{opacity:1;animation:wave .9s ease-in-out infinite alternate}
 @keyframes wave{to{transform:scaleY(1)}}
-.title-logo{display:block;height:64px;width:auto;max-width:78%;margin:0 0 6px;filter:drop-shadow(0 6px 10px rgba(60,30,90,.15))}
+.title-logo{display:block;height:50px;width:auto;max-width:78%;margin:0 0 6px;filter:drop-shadow(0 6px 10px rgba(60,30,90,.15))}
 html[data-theme=dark] .title-logo{background:rgba(255,255,255,.9);border-radius:18px;padding:5px 12px;filter:none}
 
 .bars i{max-width:46px;border-radius:999px 999px 10px 10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 6px 14px rgba(90,60,140,.14)}
