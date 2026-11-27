@@ -1,0 +1,2 @@
+{ "name": "Labass", "short_name": "Labass", "start_url": "/", "display": "standalone", "background_color": "#f5f1f8", "theme_color": "#f5f1f8",
+  "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }, { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }] }

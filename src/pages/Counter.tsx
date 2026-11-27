@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import Illus from '../components/Illus'
+import Icon3D from '../components/Icon3D'
+import { Back } from '../components/Glyph'
 import { type Counter as C, DAY, newCounter, useLocal } from '../store'
 
-type Props = { id: string; title: string; sub: string; bg: string; illus: 'head' | 'burger'; onBack: () => void }
+type Props = { id: string; title: string; sub: string; bg: string; illus: string; onBack: () => void }
 
 export default function CounterPage({ id, title, sub, bg, illus, onBack }: Props) {
   const [c, setC] = useLocal<C>('counter-' + id, newCounter())
@@ -20,20 +21,21 @@ export default function CounterPage({ id, title, sub, bg, illus, onBack }: Props
   }
   return (
     <div className="scroll">
-      <button className="back" onClick={onBack}>←</button>
+      <motion.button className="back" onClick={onBack} whileHover={{ x: -4 }} whileTap={{ scale: .85 }}><Back /></motion.button>
       <p className="eyebrow">{sub}</p>
       <h1><b>{title}</b></h1>
       <motion.div className="hero" style={{ background: bg, position: 'relative', textAlign: 'center' }} initial={{ scale: .94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
-        <Illus name={illus} className="cillus" />
+        <Icon3D name={illus} size={150} float />
+        {days >= 7 && <Icon3D name="flame" size={44} float style={{ position: "absolute", right: 18, top: 18 }} />}
         <motion.div key={days} className="big" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>{days}</motion.div>
         <div>jour{days > 1 ? 's' : ''} · {hours}h depuis le dernier relapse</div>
       </motion.div>
       <div className="row" style={{ gap: 10, marginBottom: 14 }}>
-        <div className="stat" style={{ background: '#fff' }}><b>{best}</b><small>meilleur streak</small></div>
-        <div className="stat" style={{ background: '#fff' }}><b>{c.history.length}</b><small>relapses</small></div>
-        <div className="stat" style={{ background: '#fff' }}><b>{avg}</b><small>moy. jours</small></div>
+        <motion.div whileHover={{ y: -4, scale: 1.04 }} className="stat" style={{ background: '#fff' }}><b>{best}</b><small>meilleur streak</small></motion.div>
+        <motion.div whileHover={{ y: -4, scale: 1.04 }} className="stat" style={{ background: '#fff' }}><b>{c.history.length}</b><small>relapses</small></motion.div>
+        <motion.div whileHover={{ y: -4, scale: 1.04 }} className="stat" style={{ background: '#fff' }}><b>{avg}</b><small>moy. jours</small></motion.div>
       </div>
-      <button className="pill" style={{ width: '100%', padding: 16 }} onClick={reset}>J'ai relapse · reset</button>
+      <motion.button className="pill" whileHover={{ scale: 1.02 }} whileTap={{ scale: .95 }} style={{ width: '100%', padding: 16 }} onClick={reset}>J'ai relapse · reset</motion.button>
       {c.history.length > 0 && (
         <div className="card" style={{ marginTop: 14 }}>
           <h3>Historique</h3>

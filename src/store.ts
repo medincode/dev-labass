@@ -1,11 +1,31 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 
+// Mini-store partagé par clé : plusieurs composants voient la même valeur localStorage.
+const cache = new Map<string, unknown>()
+const subs = new Map<string, Set<() => void>>()
+const persist = (k: string, v: unknown) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch { /* ignore */ } }
+
+export function readLocal<T>(key: string, init: T): T {
+  if (!cache.has(key)) {
+    let v = init
+    try { const s = localStorage.getItem(key); if (s) v = JSON.parse(s) as T; else persist(key, init) } catch { /* ignore */ }
+    cache.set(key, v)
+  }
+  return cache.get(key) as T
+}
+export function writeLocal<T>(key: string, next: T) {
+  cache.set(key, next); persist(key, next); subs.get(key)?.forEach(f => f())
+}
 export function useLocal<T>(key: string, init: T) {
-  const [v, setV] = useState<T>(() => {
-    try { const s = localStorage.getItem(key); return s ? (JSON.parse(s) as T) : init } catch { return init }
-  })
-  useEffect(() => { try { localStorage.setItem(key, JSON.stringify(v)) } catch { /* ignore */ } }, [key, v])
-  return [v, setV] as const
+  const v = useSyncExternalStore(
+    cb => { let s = subs.get(key); if (!s) subs.set(key, (s = new Set())); s.add(cb); return () => { s!.delete(cb) } },
+    () => readLocal(key, init),
+  )
+  const set = useCallback((n: T | ((p: T) => T)) => {
+    writeLocal(key, typeof n === 'function' ? (n as (p: T) => T)(readLocal(key, init)) : n)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key])
+  return [v, set] as const
 }
 
 export const DAY = 86400000
@@ -14,25 +34,26 @@ export const dkey = (d = new Date()) =>
 
 export type Counter = { start: number; history: { start: number; end: number }[] }
 export const newCounter = (): Counter => ({ start: Date.now(), history: [] })
+export const daysSince = (c: Counter) => Math.floor((Date.now() - c.start) / DAY)
 
 export const MOODS = [
-  { id: 'happy', label: 'Heureux', color: '#f1df88', mouth: 'M-8 4 Q0 12 8 4', eyes: 'o' },
-  { id: 'calm', label: 'Calme', color: '#8d9b62', mouth: 'M-7 5 Q0 9 7 5', eyes: '-' },
-  { id: 'angry', label: 'Colère', color: '#e88e7e', mouth: 'M-7 8 Q0 2 7 8', eyes: 'o' },
-  { id: 'excited', label: 'Excité', color: '#6f9be0', mouth: 'M-9 3 Q0 14 9 3', eyes: 'o' },
-  { id: 'sad', label: 'Triste', color: '#efd9cf', mouth: 'M-6 8 Q0 3 6 8', eyes: 'o' },
-  { id: 'stress', label: 'Stress', color: '#bcc0ff', mouth: 'M-7 7 L7 7', eyes: 'o' },
+  { id: 'happy', label: 'Heureux', color: '#f1df88' },
+  { id: 'calm', label: 'Calme', color: '#8d9b62' },
+  { id: 'angry', label: 'Colère', color: '#e88e7e' },
+  { id: 'excited', label: 'Excité', color: '#6f9be0' },
+  { id: 'sad', label: 'Triste', color: '#efd9cf' },
+  { id: 'stress', label: 'Stress', color: '#bcc0ff' },
 ] as const
 
 export const SPORTS = [
-  { id: 'surf', label: 'Surf', e: '🏄', c: '#cde6dd' },
-  { id: 'tennis', label: 'Tennis', e: '🎾', c: '#f1df88' },
-  { id: 'gym1', label: 'Gym full body V1', e: '🏋️', c: '#bcc0ff' },
-  { id: 'gym2', label: 'Gym full body V2', e: '💪', c: '#bcc0ff' },
-  { id: 'gym3', label: 'Gym full body V3', e: '🦾', c: '#bcc0ff' },
-  { id: 'cardio', label: 'Gym cardio', e: '🚴', c: '#efd9cf' },
-  { id: 'forest', label: 'Run forest', e: '🌲', c: '#cde6dd' },
-  { id: 'beach', label: 'Run & plouf beach', e: '🏖️', c: '#f1df88' },
-  { id: 'stretch', label: 'Stretching', e: '🧘', c: '#efd9cf' },
-  { id: 'ice', label: 'Ice bath', e: '🧊', c: '#bcd8f5' },
+  { id: 'surf', label: 'Surf', c: '#cde6dd' },
+  { id: 'tennis', label: 'Tennis', c: '#f1df88' },
+  { id: 'gym1', label: 'Gym full body V1', c: '#bcc0ff' },
+  { id: 'gym2', label: 'Gym full body V2', c: '#f6c9bd' },
+  { id: 'gym3', label: 'Gym full body V3', c: '#bcd8f5' },
+  { id: 'cardio', label: 'Gym cardio', c: '#efd9cf' },
+  { id: 'forest', label: 'Run forest', c: '#cde6dd' },
+  { id: 'beach', label: 'Run & plouf beach', c: '#f1df88' },
+  { id: 'stretch', label: 'Stretching', c: '#e3e6c9' },
+  { id: 'ice', label: 'Ice bath', c: '#bcd8f5' },
 ] as const
