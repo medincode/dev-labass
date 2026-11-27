@@ -59,7 +59,6 @@ export default function Fitness() {
           {GROUPS.map(g => (
             <motion.button key={g.id} className="sitem glass" onClick={() => { if (!rail.moved()) openGroup(g.id) }} whileHover={{ y: -4 }} whileTap={{ scale: .92 }}>
               <Icon3D name={g.icon} size={62} /><b>{g.label}</b>
-              {g.ids.length > 1 && <small>V1 · V2 · V3</small>}
             </motion.button>
           ))}
         </div>

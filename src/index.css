@@ -449,3 +449,5 @@ html[data-theme=dark] .aura.a1{border-color:rgba(200,203,218,.22)!important}
 .day{display:flex;align-items:center;justify-content:center}
 .day .dayicons{padding:9px 0 0;margin:0;gap:0;max-width:100%;max-height:100%;overflow:hidden}
 .cal .day img{margin-top:0;max-width:100%}
+/* sports : icône + nom centrés dans la carte */
+.sitem{justify-content:center;gap:6px;padding:8px 6px}
