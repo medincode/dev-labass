@@ -53,7 +53,7 @@ export default function Mood() {
         <div className="bars" style={{ marginBottom: 6 }}>
           {counts.map(c => (
             <div key={c.id}>
-              <motion.i initial={{ height: 6 }} animate={{ height: 6 + (c.n / max) * 80 }} transition={{ type: 'spring', stiffness: 120, damping: 14 }} style={{ background: c.color }} />
+              <motion.i initial={{ height: 6 }} animate={{ height: 6 + (c.n / max) * 80 }} transition={{ type: 'spring', stiffness: 120, damping: 14 }} style={{ background: `linear-gradient(180deg, color-mix(in srgb, ${c.color} 45%, #fff) 0%, ${c.color} 55%, color-mix(in srgb, ${c.color} 82%, #3a2a5a) 100%)` }} />
               <Icon3D name={'mood-' + c.id} size={30} whileHover={{ scale: 1.3, rotate: 10 }} /><b>{c.n}</b>
             </div>
           ))}
