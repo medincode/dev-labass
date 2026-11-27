@@ -37,7 +37,7 @@ export default function Mood() {
           {MOODS.map((m, i) => (
             <motion.button key={m.id} className={'citem' + (focus === i ? ' focus' : '') + (cur === m.id ? ' chosen' : '')} aria-label={m.label}
               onClick={() => { if (rail.moved()) return; go(i); pick(m.id) }} whileTap={{ scale: .94 }}>
-              <Icon3D name={'mood-' + m.id} size={focus === i ? 96 : 68} float={focus === i} />
+              <span className="cico"><Icon3D name={'mood-' + m.id} size={84} float={focus === i} /></span>
               <b>{m.label}</b>
               {cur === m.id && <motion.span className="chip glass" initial={{ scale: 0 }} animate={{ scale: 1 }}>Mon mood</motion.span>}
             </motion.button>

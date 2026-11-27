@@ -42,7 +42,6 @@ export default function Home({ go }: { go: (r: Route) => void }) {
       <motion.div className="top" variants={item}>
         <div className="brandrow">
           <motion.img src={logo} alt="Labass" className="brand" whileHover={{ scale: 1.06, rotate: -2 }} />
-          <span className="vbadge glass">v{__APP_VERSION__}</span>
         </div>
         <div className="row" style={{ gap: 8 }}>
           <motion.button className="round glass" aria-label="Paramètres" onClick={() => go('settings')} whileHover={{ rotate: 60, scale: 1.08 }} whileTap={{ scale: .88 }}><NavIcon name="settings" size={22} /></motion.button>

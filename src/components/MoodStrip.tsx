@@ -15,7 +15,7 @@ export default function MoodStrip({ onMore }: { onMore: () => void }) {
   return (
     <motion.div className="card glass moodcard" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
       <div className="row" style={{ marginBottom: 4 }}>
-        <h3 style={{ margin: 0 }}>{cur ? 'Ton mood du jour' : 'Comment tu te sens ?'}</h3>
+        <span className="vbadge glass">Mood</span>
         <button className="more" onClick={onMore}>Stats <Arrow /></button>
       </div>
       <div className="stripwrap">
