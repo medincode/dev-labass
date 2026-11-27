@@ -278,7 +278,7 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .strip{gap:4px}
 
 .quote2{margin:6px 8px 22px;padding:0;text-align:center}
-.quote2 blockquote{margin:0;font-family:'DM Serif Display',Georgia,serif;font-style:normal;font-weight:400;font-size:27px;line-height:1.25;letter-spacing:-.02em;word-spacing:.1em;color:var(--qg1);opacity:1}
+.quote2 blockquote{margin:0;font-family:'DM Serif Display',Georgia,serif;font-style:normal;font-weight:400;font-size:21px;line-height:1.3;letter-spacing:-.02em;word-spacing:.1em;color:var(--qg1);opacity:1}
 .qm{font-size:40px;line-height:0;vertical-align:-.28em;margin:0 4px;font-weight:400}
 .qs-title{margin:0 0 10px 4px}
 .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
