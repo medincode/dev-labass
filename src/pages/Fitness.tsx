@@ -141,7 +141,6 @@ export default function Fitness() {
                   ))}
                 </div>
               )}
-              {total > 0 && <div className="xpbar wide" style={{ margin: '0 0 12px' }}><motion.i initial={{ width: 0 }} animate={{ width: (exDone.length / total) * 100 + "%" }} transition={{ duration: .5, ease: "easeOut" }} /></div>}
               <div className="exlist">
                 {total === 0 && <p className="mute" style={{ margin: 0 }}>{NAME}, les options de ce sport arrivent bientôt.</p>}
                 {PROGRAMS[pid].exercises.map((e, i) => {
