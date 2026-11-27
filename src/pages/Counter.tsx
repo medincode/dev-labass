@@ -4,6 +4,7 @@ import AnimatedNumber from '../components/AnimatedNumber'
 import { RESTART } from '../data/quotes'
 import Confirm from '../components/Confirm'
 import Icon3D from '../components/Icon3D'
+import NavIcon from '../components/NavIcons'
 import TitleLogo from '../components/TitleLogo'
 import { DAY, NAME, daysSince, newCounter, useLocal, type Counter as C } from '../store'
 
@@ -47,8 +48,8 @@ export default function CounterPage({ id, title, sub, bg, illus }: Props) {
         )}
       </AnimatePresence>
       <div className="row" style={{ gap: 10, marginBottom: 14 }}>
-        {[[best, 'meilleur streak'], [c.history.length, 'relapses'], [avg, 'moy. jours']].map(([v, l]) => (
-          <motion.div key={l} whileHover={{ y: -4, scale: 1.04 }} className="stat glass"><b>{v}</b><small>{l}</small></motion.div>
+        {[[best, 'meilleur streak', 'trophy'], [c.history.length, 'relapses', 'heartbreak'], [avg, 'moy. jours', 'chart']].map(([v, l, ic]) => (
+          <motion.div key={l} whileHover={{ y: -4, scale: 1.04 }} className="stat glass"><NavIcon name={ic as string} size={22} /><b>{v}</b><small>{l}</small></motion.div>
         ))}
       </div>
       <motion.button className="pill" whileHover={{ scale: 1.02 }} whileTap={{ scale: .95 }} style={{ width: '100%', padding: 16 }} onClick={() => setAsk(true)}>

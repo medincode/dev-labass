@@ -124,9 +124,10 @@ export default function Fitness() {
         {group && (
           <motion.div className="sheet" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setGrp(null)}>
             <motion.div className="glass" initial={{ y: 500 }} animate={{ y: 0 }} exit={{ y: 500 }} transition={{ type: 'spring', damping: 26, stiffness: 260 }} onClick={e => e.stopPropagation()}>
-              <div className="row" style={{ marginBottom: 12 }}>
-                <div className="row" style={{ gap: 10 }}><Icon3D name={pid} size={54} float /><div><h3 style={{ margin: 0 }}>{PROGRAMS[pid].title}</h3>
-                  <small className="mute">{total > 0 ? `${exDone.length}/${total} faits aujourd'hui` : 'Contenu à venir'}</small></div></div>
+              <div className="mhead">
+                <span />
+                <div className="mtitle"><Icon3D name={pid} size={54} float /><h3>{PROGRAMS[pid].title}</h3>
+                  <small className="mute">{total > 0 ? `${exDone.length}/${total} faits aujourd'hui` : 'Contenu à venir'}</small></div>
                 <motion.button className="round glass" aria-label="Fermer" whileTap={{ scale: .85 }} onClick={() => setGrp(null)}><Close /></motion.button>
               </div>
               {group.ids.length > 1 && (

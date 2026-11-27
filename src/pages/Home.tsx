@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import Icon3D from '../components/Icon3D'
+import NavIcon from '../components/NavIcons'
 import MoodStrip from '../components/MoodStrip'
 import logo from '../assets/brand/logo.webp'
 import mascot from '../assets/brand/mascot.webp'
@@ -26,7 +27,7 @@ export default function Home({ go }: { go: (r: Route) => void }) {
   const month = dkey().slice(0, 7)
   const sessions = Object.keys(g.plan).filter(k => k.startsWith(month)).reduce((n, k) => n + acts(g.plan, k).length, 0)
   const stats = [
-    { i: 'nofap', v: daysSince(fap), l: 'Stay Clean', u: 'j' }, { i: 'cheat', v: daysSince(cheat), l: 'Eat Clean', u: 'j' },
+    { i: 'fap', v: daysSince(fap), l: 'Stay Clean', u: 'j' }, { i: 'cheat', v: daysSince(cheat), l: 'Eat Clean', u: 'j' },
     { i: 'fitness', v: sessions, l: 'Séances', u: '' }, { i: 'star', v: g.xp, l: 'XP', u: '' },
   ]
   return (
@@ -75,7 +76,7 @@ export default function Home({ go }: { go: (r: Route) => void }) {
         <div className="qs">
           {stats.map(t => (
             <motion.div key={t.l} className="qs-item glass" whileHover={{ y: -4 }}>
-              <Icon3D name={t.i} size={36} /><b>{t.v}{t.u}</b><small>{t.l}</small>
+              <NavIcon name={t.i} size={24} /><b>{t.v}{t.u}</b><small>{t.l}</small>
             </motion.div>
           ))}
         </div>

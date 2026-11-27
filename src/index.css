@@ -287,3 +287,8 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 
 /* icônes du hub sans texte : orbite symétrique autour du bonhomme */
 .b0,.b1{top:calc(50% - 165px)}.b2,.b3{top:calc(50% + 73px)}
+
+.stat svg,.qs-item svg{color:var(--ink);margin-bottom:2px}
+.mhead{display:grid;grid-template-columns:44px 1fr 44px;align-items:start;margin-bottom:12px}
+.mtitle{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.mtitle h3{margin:0}
