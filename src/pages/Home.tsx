@@ -5,8 +5,7 @@ import MoodStrip from '../components/MoodStrip'
 import logo from '../assets/brand/logo.webp'
 import mascot from '../assets/brand/mascot.webp'
 import { QUOTES } from '../data/quotes'
-import { useOrbit } from '../components/useOrbit'
-import { award, useGame } from '../game'
+import { useGame } from '../game'
 import { NAME, acts, daysSince, dkey, hello, newCounter, useLocal, type Counter } from '../store'
 
 export type Route = 'home' | 'fap' | 'cheat' | 'fitness' | 'meditation' | 'mood' | 'rewards' | 'settings'
@@ -33,8 +32,6 @@ export default function Home({ go }: { go: (r: Route) => void }) {
     { i: 'fap', v: daysSince(fap), l: 'Stay Clean', u: 'j' }, { i: 'cheat', v: daysSince(cheat), l: 'Eat Clean', u: 'j' },
     { i: 'fitness', v: sessions, l: 'Séances', u: '' }, { i: 'meditation', v: ago === null ? '—' : ago === 0 ? 'Auj.' : ago === 1 ? 'Hier' : `${ago}j`, l: 'Breathing', u: '' },
   ]
-  // Mini-jeu : les 4 menus sont des satellites qu'on fait tourner (glisser) et qui gardent leur élan.
-  const orbit = useOrbit(HUB.map(h => h.angle), 152, 178, () => award('spin:' + dkey(), 5))
   // Citation du jour : tirée au hasard mais stable pour la journée (pas modifiable).
   const q = Math.abs([...dkey()].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)) % QUOTES.length
   return (
@@ -59,12 +56,12 @@ export default function Home({ go }: { go: (r: Route) => void }) {
 
       <motion.div variants={item}><MoodStrip onMore={() => go('mood')} /></motion.div>
 
-      <motion.div ref={orbit.hub} className="hub" variants={item}>
+      <motion.div className="hub" variants={item}>
         <span className="glow" /><span className="aura a1" /><span className="aura a2" />
         <span className="float mascot-wrap"><img src={mascot} alt="" className="mascot" draggable={false} /></span>
         <span className="shadow" />
         {HUB.map((h, i) => (
-          <span key={h.r} ref={el => { orbit.els.current[i] = el }} className="orbit" {...orbit.bind} onClick={() => { if (!orbit.wasDrag()) go(h.r) }}>
+          <span key={h.r} className="orbit" style={{ transform: `translate3d(${Math.cos(h.angle * Math.PI / 180) * 152}px,${Math.sin(h.angle * Math.PI / 180) * 178}px,0)` }} onClick={() => go(h.r)}>
             <motion.button className="obtn" aria-label={h.label} title={h.label} whileHover={{ scale: 1.1 }} whileTap={{ scale: .92 }}
               initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 220, damping: 14, delay: .25 + i * .1 }}>
               <span className="orb2" style={{ '--t': h.c } as React.CSSProperties}><Icon3D name={h.icon} size={58} /></span>

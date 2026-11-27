@@ -460,3 +460,6 @@ html.scrolling *,html.scrolling *::before,html.scrolling *::after{animation-play
 .aura.a2{animation-timing-function:steps(660,end)!important}
 html.video-on *,html.video-on *::before,html.video-on *::after{animation-play-state:paused!important}
 html.video-on .vp-wave i,html.video-on .vp-wave i::before{animation-play-state:running!important}
+/* icônes du hub : fixes (plus de mini-jeu) */
+.orbit{touch-action:auto;cursor:pointer;will-change:auto}
+.orbit:active{cursor:pointer}
