@@ -15,8 +15,14 @@ const NAV: { r: Route; i: string; l: string }[] = [
   { r: 'fitness', i: 'fitness', l: 'Fit' }, { r: 'meditation', i: 'meditation', l: 'Breath' },
 ]
 
+const ROUTES: Route[] = ['home', 'fap', 'cheat', 'fitness', 'meditation', 'mood', 'rewards']
+const fromHash = (): Route => { const h = location.hash.replace(/^#\/?/, '') as Route; return ROUTES.includes(h) ? h : 'home' }
+
 export default function App() {
-  const [r, setR] = useState<Route>('home')
+  // La page courante vit dans l'URL (#/fitness) : elle survit au refresh et le bouton retour fonctionne.
+  const [r, setRoute] = useState<Route>(fromHash)
+  const setR = (n: Route) => { if (n !== r) location.hash = '/' + n }
+  useEffect(() => { const on = () => setRoute(fromHash()); window.addEventListener('hashchange', on); return () => window.removeEventListener('hashchange', on) }, [])
   useEffect(() => { document.title = `Labass v${__APP_VERSION__}` }, [])
   const back = () => setR('home')
   const page = {
@@ -46,7 +52,6 @@ export default function App() {
           </motion.button>
         ))}
       </motion.nav>
-      <footer className="ver">Labass v{__APP_VERSION__}</footer>
     </div>
   )
 }

@@ -26,7 +26,10 @@ export default function Home({ go }: { go: (r: Route) => void }) {
   return (
     <motion.div className="scroll" variants={list} initial="hidden" animate="show">
       <motion.div className="top" variants={item}>
-        <motion.img src={logo} alt="Labass" className="brand" whileHover={{ scale: 1.06, rotate: -2 }} />
+        <div className="brandrow">
+          <motion.img src={logo} alt="Labass" className="brand" whileHover={{ scale: 1.06, rotate: -2 }} />
+          <span className="vbadge glass">v{__APP_VERSION__}</span>
+        </div>
         <motion.button className="lvl glass" onClick={() => go('rewards')} whileHover={{ scale: 1.06 }} whileTap={{ scale: .94 }}>
           <Icon3D name="star" size={30} float />
           <div><b>Niv. {g.level}</b><div className="xpbar"><motion.i initial={{ width: 0 }} animate={{ width: g.pct + '%' }} transition={{ duration: 1, ease: 'easeOut' }} /></div></div>

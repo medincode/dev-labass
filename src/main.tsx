@@ -9,3 +9,6 @@ import './index.css'
 import App from './App'
 
 createRoot(document.getElementById('root')!).render(<App />)
+
+// Pause les animations CSS quand l'app est en arrière-plan (économise le GPU/batterie).
+document.addEventListener('visibilitychange', () => document.documentElement.classList.toggle('bg-paused', document.hidden))
