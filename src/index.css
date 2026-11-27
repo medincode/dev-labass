@@ -155,7 +155,7 @@ video{object-fit:cover;width:100%;aspect-ratio:16/9;border:0;border-radius:22px;
   background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);transition:background .25s,box-shadow .25s}
 .sitem b{font-family:var(--display);font-size:14px;font-weight:600;text-align:center;line-height:1.05}
 .sitem small{font-size:10px;color:var(--mute)}
-.sitem.on{background:rgba(255,255,255,.7);border-color:#fff;box-shadow:0 12px 28px rgba(90,60,140,.2),inset 0 1px 0 #fff}
+.sitem.on-unused{background:rgba(255,255,255,.7);border-color:#fff;box-shadow:0 12px 28px rgba(90,60,140,.2),inset 0 1px 0 #fff}
 .progpanel{overflow:hidden;padding-top:4px}
 
 /* --- perf GPU --- */
@@ -178,3 +178,10 @@ html.bg-paused *,html.bg-paused *::before,html.bg-paused *::after{animation-play
 
 .backbtn{position:absolute;z-index:30;top:calc(env(safe-area-inset-top) + 14px);left:16px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center}
 .app:not([data-home]) .scroll{padding-top:calc(env(safe-area-inset-top) + 72px)}
+
+.sportrail{cursor:grab;user-select:none}.sportrail:active{cursor:grabbing}
+.exlist{display:flex;flex-direction:column;gap:8px;max-height:46vh;overflow-y:auto;scrollbar-width:none}
+.exrow{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:20px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);text-align:left;font-size:15px}
+.exrow .n{width:26px;height:26px;border-radius:50%;background:#1b152410;display:grid;place-items:center;font-family:var(--display);font-size:13px;font-weight:600;flex:none}
+.exrow .t{flex:1}.exrow.ok{background:rgba(223,242,230,.8)}.exrow.ok .t{text-decoration:line-through;color:var(--mute)}
+.sheet>.glass{background:rgba(255,255,255,.86);width:100%;border-radius:34px 34px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 24px);max-height:90%;overflow:auto}

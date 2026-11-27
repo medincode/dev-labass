@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import Icon3D from './Icon3D'
+import Portal from './Portal'
 
 type P = { open: boolean; title: string; text: string; icon?: string; confirm?: string; onConfirm: () => void; onCancel: () => void }
 /** Boîte de dialogue maison (remplace window.confirm) : glass + spring. */
 export default function Confirm({ open, title, text, icon = 'flame', confirm = 'Confirmer', onConfirm, onCancel }: P) {
   return (
-    <AnimatePresence>
+    <Portal><AnimatePresence>
       {open && (
         <motion.div className="modal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onCancel}>
           <motion.div className="dialog glass" role="alertdialog" aria-modal onClick={e => e.stopPropagation()}
@@ -20,6 +21,6 @@ export default function Confirm({ open, title, text, icon = 'flame', confirm = '
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence></Portal>
   )
 }

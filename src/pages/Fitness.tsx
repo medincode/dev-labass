@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Icon3D from '../components/Icon3D'
+import Portal from '../components/Portal'
 import TitleLogo from '../components/TitleLogo'
-import { Next, Prev } from '../components/Glyph'
+import { Close, Next, Prev } from '../components/Glyph'
 import { award } from '../game'
 import { GROUPS, PROGRAMS } from '../data/programs'
 import { NAME, SPORTS, acts, dkey, useLocal, type Plan } from '../store'
@@ -14,8 +15,24 @@ export default function Fitness() {
   const [sel, setSel] = useState<string | null>(null)
   const [grp, setGrp] = useState<string | null>(null)
   const [prog, setProg] = useState<string>('')
+  const [done, setDone] = useLocal<Record<string, string[]>>('prog-done', {})
   const group = GROUPS.find(g => g.id === grp)
-  const openGroup = (id: string) => { const g = GROUPS.find(x => x.id === id)!; setGrp(grp === id ? null : id); setProg(g.ids[0]) }
+  const openGroup = (id: string) => { setGrp(id); setProg(GROUPS.find(x => x.id === id)!.ids[0]) }
+  const rail = useRef<HTMLDivElement>(null)
+  const drag = useRef({ on: false, x: 0, left: 0, moved: false })
+  const scrollRail = (d: number) => rail.current?.scrollBy({ left: d * 216, behavior: 'smooth' })
+  const pd = (e: React.PointerEvent) => { if (e.pointerType !== 'mouse') return; drag.current = { on: true, x: e.clientX, left: rail.current!.scrollLeft, moved: false } }
+  const pm = (e: React.PointerEvent) => { const d = drag.current; if (!d.on) return; const dx = e.clientX - d.x; if (Math.abs(dx) > 5) d.moved = true; rail.current!.scrollLeft = d.left - dx }
+  const pu = () => { drag.current.on = false }
+  const pid = prog || group?.ids[0] || ''
+  const dk = `${dkey()}:${pid}`
+  const exDone = done[dk] ?? []
+  const total = PROGRAMS[pid]?.exercises.length ?? 0
+  const toggleEx = (name: string) => {
+    const next = exDone.includes(name) ? exDone.filter(n => n !== name) : [...exDone, name]
+    setDone({ ...done, [dk]: next })
+    if (total > 0 && next.length === total) award('prog:' + dk, 20)
+  }
   const addToday = (id: string) => { const cur = acts(plan, today); if (!cur.includes(id)) { setPlan({ ...plan, [today]: [...cur, id] }); award('fit:' + today, 15) } }
   const y = cur.getFullYear(), m = cur.getMonth()
   const offset = (new Date(y, m, 1).getDay() + 6) % 7
@@ -62,41 +79,23 @@ export default function Fitness() {
       <div className="card glass row"><div><h3>Ce mois-ci</h3><div className="mute">séances planifiées</div></div>
         <motion.div key={count} className="big" style={{ fontSize: 56, margin: 0 }} initial={{ scale: 1.4 }} animate={{ scale: 1 }}>{count}</motion.div></div>
       <div className="card glass">
-        <h3>Tes sports</h3>
-        <div className="sportrail">
+        <div className="row" style={{ marginBottom: 6 }}>
+          <h3 style={{ margin: 0 }}>Tes sports</h3>
+          <div className="row" style={{ gap: 8 }}>
+            <motion.button className="round glass" aria-label="Précédent" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => scrollRail(-1)}><Prev /></motion.button>
+            <motion.button className="round glass" aria-label="Suivant" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => scrollRail(1)}><Next /></motion.button>
+          </div>
+        </div>
+        <div ref={rail} className="sportrail" onPointerDown={pd} onPointerMove={pm} onPointerUp={pu} onPointerLeave={pu}>
           {GROUPS.map(g => (
-            <motion.button key={g.id} className={'sitem' + (grp === g.id ? ' on' : '')} onClick={() => openGroup(g.id)} whileHover={{ y: -4 }} whileTap={{ scale: .92 }}>
-              <Icon3D name={g.icon} size={grp === g.id ? 70 : 58} float={grp === g.id} /><b>{g.label}</b>
+            <motion.button key={g.id} className="sitem" onClick={() => { if (!drag.current.moved) openGroup(g.id) }} whileHover={{ y: -4 }} whileTap={{ scale: .92 }}>
+              <Icon3D name={g.icon} size={62} /><b>{g.label}</b>
               {g.ids.length > 1 && <small>V1 · V2 · V3</small>}
             </motion.button>
           ))}
         </div>
-        <AnimatePresence mode="wait">
-          {group && (
-            <motion.div key={group.id} className="progpanel" initial={{ opacity: 0, y: 14, height: 0 }} animate={{ opacity: 1, y: 0, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
-              {group.ids.length > 1 && (
-                <div className="tabs glass" role="tablist">
-                  {group.ids.map((id, i) => (
-                    <motion.button key={id} role="tab" aria-selected={prog === id} className={prog === id ? 'on' : ''} onClick={() => setProg(id)} whileTap={{ scale: .92 }}>
-                      {prog === id && <motion.i layoutId="progpill" className="pill-bg" transition={{ type: 'spring', stiffness: 380, damping: 30 }} />}
-                      <Icon3D name={id} size={prog === id ? 42 : 34} /><span>V{i + 1}</span>
-                    </motion.button>
-                  ))}
-                </div>
-              )}
-              <div className="row" style={{ margin: '4px 0 8px' }}><h3 style={{ margin: 0 }}>{PROGRAMS[prog || group.ids[0]].title}</h3>
-                <motion.button className="pill" whileTap={{ scale: .92 }} onClick={() => addToday(prog || group.ids[0])}>+ Aujourd'hui</motion.button></div>
-              {PROGRAMS[prog || group.ids[0]].exercises.length === 0
-                ? <p className="mute" style={{ margin: 0 }}>{NAME}, le contenu de ce programme arrive bientôt.</p>
-                : PROGRAMS[prog || group.ids[0]].exercises.map((e, i) => (
-                  <motion.div key={e.name} className="quest" initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * .04 }}>
-                    <span>{e.name}</span>{e.detail && <b>{e.detail}</b>}
-                  </motion.div>
-                ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+      <Portal>
       <AnimatePresence>
         {sel && (
           <motion.div className="sheet" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSel(null)}>
@@ -123,6 +122,45 @@ export default function Fitness() {
           </motion.div>
         )}
       </AnimatePresence>
+      <AnimatePresence>
+        {group && (
+          <motion.div className="sheet" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setGrp(null)}>
+            <motion.div className="glass" initial={{ y: 500 }} animate={{ y: 0 }} exit={{ y: 500 }} transition={{ type: 'spring', damping: 26, stiffness: 260 }} onClick={e => e.stopPropagation()}>
+              <div className="row" style={{ marginBottom: 12 }}>
+                <div className="row" style={{ gap: 10 }}><Icon3D name={pid} size={54} float /><div><h3 style={{ margin: 0 }}>{PROGRAMS[pid].title}</h3>
+                  <small className="mute">{total > 0 ? `${exDone.length}/${total} faits aujourd'hui` : 'Contenu à venir'}</small></div></div>
+                <motion.button className="round glass" aria-label="Fermer" whileTap={{ scale: .85 }} onClick={() => setGrp(null)}><Close /></motion.button>
+              </div>
+              {group.ids.length > 1 && (
+                <div className="tabs glass" role="tablist">
+                  {group.ids.map((id, i) => (
+                    <motion.button key={id} role="tab" aria-selected={prog === id} className={prog === id ? 'on' : ''} onClick={() => setProg(id)} whileTap={{ scale: .92 }}>
+                      {prog === id && <motion.i layoutId="progpill" className="pill-bg" transition={{ type: 'spring', stiffness: 380, damping: 30 }} />}
+                      <Icon3D name={id} size={prog === id ? 44 : 36} /><span>V{i + 1}</span>
+                    </motion.button>
+                  ))}
+                </div>
+              )}
+              {total > 0 && <div className="xpbar wide" style={{ margin: '0 0 12px' }}><motion.i animate={{ width: (exDone.length / total) * 100 + '%' }} /></div>}
+              <div className="exlist">
+                {total === 0 && <p className="mute" style={{ margin: 0 }}>{NAME}, les options de ce sport arrivent bientôt.</p>}
+                {PROGRAMS[pid].exercises.map((e, i) => {
+                  const ok = exDone.includes(e.name)
+                  return (
+                    <motion.button key={pid + e.name} className={'exrow' + (ok ? ' ok' : '')} onClick={() => toggleEx(e.name)}
+                      initial={{ opacity: 0, x: -14 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * .03 }} whileTap={{ scale: .97 }}>
+                      <span className="n">{i + 1}</span><span className="t">{e.name}</span>
+                      <AnimatePresence>{ok && <Icon3D name="check" size={26} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} />}</AnimatePresence>
+                    </motion.button>
+                  )
+                })}
+              </div>
+              <motion.button className="pill" style={{ width: '100%', marginTop: 14 }} whileTap={{ scale: .95 }} onClick={() => addToday(pid)}>+ Planifier aujourd'hui</motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      </Portal>
     </div>
   )
 }

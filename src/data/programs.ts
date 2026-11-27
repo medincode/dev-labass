@@ -1,11 +1,14 @@
-// Contenu des programmes sport. À compléter : ajoute les exercices ici, l'UI les affiche automatiquement.
+// Contenu des programmes sport. Ajoute/modifie les exercices ici, l'UI suit automatiquement.
 export type Exercise = { name: string; detail?: string }
 export type Program = { title: string; intro?: string; exercises: Exercise[] }
 
+const ex = (...names: string[]): Exercise[] => names.map(name => ({ name }))
+const FINISH = ['Farm walk', 'Abdos', 'Lombaires']
+
 export const PROGRAMS: Record<string, Program> = {
-  gym1: { title: 'Full body V1', exercises: [] },
-  gym2: { title: 'Full body V2', exercises: [] },
-  gym3: { title: 'Full body V3', exercises: [] },
+  gym1: { title: 'Full body V1', exercises: ex('Pecs machine', 'Hack squat', 'Épaules press', 'Deadlift dumbell', 'Dos poulie', 'Leg curl', 'Biceps poulie', 'Triceps poulie', 'Mollets machine', ...FINISH) },
+  gym2: { title: 'Full body V2', exercises: ex('Pecs haltère incliné', 'Deadlift', 'Épaules machine', 'Goblet squat', 'Dos poulie', 'Lunges', 'Biceps EZ bar', 'Triceps EZ bar', 'Mollets hack squat machine', ...FINISH) },
+  gym3: { title: 'Full body V3', exercises: ex('Pec flies', 'Leg press', 'Épaules poulie', 'Single leg press', 'Dos rowbar V', 'Mollets leg press', 'Biceps machine', 'Triceps machine', ...FINISH) },
   surf: { title: 'Surf', exercises: [] },
   tennis: { title: 'Tennis', exercises: [] },
   cardio: { title: 'Gym cardio', exercises: [] },
