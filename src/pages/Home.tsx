@@ -76,11 +76,17 @@ export default function Home({ go }: { go: (r: Route) => void }) {
 
       <motion.figure className="quote2" variants={item}>
         <motion.blockquote variants={{ show: { transition: { staggerChildren: .028, delayChildren: .15 } } }} initial="hidden" whileInView="show" viewport={{ once: true, amount: .6 }}>
-          <motion.span className="qm" variants={LETTER}>“</motion.span>
-          {QUOTES[q].split(' ').map((w, wi) => (
-            <span key={wi}><span className="qw">{[...w].map((ch, ci) => <motion.span key={ci} className="ql" variants={LETTER}>{ch}</motion.span>)}</span>{' '}</span>
-          ))}
-          <motion.span className="qm" variants={LETTER}>”</motion.span>
+          <motion.span className="qm" variants={LETTER} style={{ color: 'var(--qg1)' }}>“</motion.span>
+          {(() => {
+            // dégradé gris clair → foncé, calculé lettre par lettre (le clip de fond ne traverse pas les spans animés)
+            const total = [...QUOTES[q]].length - 1; let n = 0
+            return QUOTES[q].split(' ').map((w, wi) => (
+              <span key={wi}><span className="qw">{[...w].map((ch, ci) => (
+                <motion.span key={ci} className="ql" variants={LETTER} style={{ color: `color-mix(in srgb, var(--qg2) ${Math.round((n++ / total) * 100)}%, var(--qg1))` }}>{ch}</motion.span>
+              ))}</span>{n++ >= 0 ? ' ' : ''}</span>
+            ))
+          })()}
+          <motion.span className="qm" variants={LETTER} style={{ color: 'var(--qg2)' }}>”</motion.span>
         </motion.blockquote>
       </motion.figure>
 
