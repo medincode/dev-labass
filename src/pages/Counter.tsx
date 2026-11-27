@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import AnimatedNumber from '../components/AnimatedNumber'
 import Confirm from '../components/Confirm'
+import { Close } from '../components/Glyph'
 import Icon3D from '../components/Icon3D'
 import NavIcon from '../components/NavIcons'
 import TitleLogo from '../components/TitleLogo'
@@ -15,6 +16,7 @@ const coach = (d: number) => d === 0 ? `Nouveau départ, ${NAME}. Chaque jour co
 export default function CounterPage({ id, title, sub, bg, illus }: Props) {
   const [c, setC] = useLocal<C>('counter-' + id, newCounter())
   const [ask, setAsk] = useState(false)
+  const [askClear, setAskClear] = useState(false)
   const [, tick] = useState(0)
   useEffect(() => { const t = setInterval(() => tick(x => x + 1), 60000); return () => clearInterval(t) }, [])
   const days = daysSince(c)
@@ -46,15 +48,26 @@ export default function CounterPage({ id, title, sub, bg, illus }: Props) {
       </motion.button>
       {c.history.length > 0 && (
         <div className="card glass" style={{ marginTop: 14 }}>
-          <h3>Ton historique</h3>
-          {[...c.history].reverse().slice(0, 12).map((h, i) => (
-            <div key={i} className="row" style={{ padding: '6px 0', fontSize: 14 }}>
-              <span>{new Date(h.start).toLocaleDateString('fr-FR')} → {new Date(h.end).toLocaleDateString('fr-FR')}</span>
-              <b>{Math.floor((h.end - h.start) / DAY)} j</b>
-            </div>
-          ))}
+          <div className="row" style={{ marginBottom: 6 }}>
+            <h3 style={{ margin: 0 }}>Ton historique</h3>
+            <button className="more" onClick={() => setAskClear(true)}>Tout supprimer</button>
+          </div>
+          <AnimatePresence initial={false}>
+            {c.history.map((h, idx) => ({ h, idx })).reverse().slice(0, 12).map(({ h, idx }) => (
+              <motion.div key={h.start + '-' + h.end} className="row histrow" layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: 30, height: 0 }} transition={{ duration: .2 }}>
+                <span>{new Date(h.start).toLocaleDateString('fr-FR')} → {new Date(h.end).toLocaleDateString('fr-FR')}</span>
+                <span className="row" style={{ gap: 8 }}>
+                  <b>{Math.floor((h.end - h.start) / DAY)} j</b>
+                  <motion.button className="xbtn" aria-label="Supprimer cette ligne" whileTap={{ scale: .8 }}
+                    onClick={() => setC({ ...c, history: c.history.filter((_, i) => i !== idx) })}><Close /></motion.button>
+                </span>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
+      <Confirm open={askClear} title="Supprimer l'historique ?" text="Toutes les lignes seront effacées. Ton streak actuel n'est pas touché, mais les relapses, la moyenne et le meilleur streak repartent de zéro."
+        icon="flame" confirm="Oui, supprimer" onConfirm={() => { setC({ ...c, history: [] }); setAskClear(false) }} onCancel={() => setAskClear(false)} />
       <Confirm open={ask} title={`Reset, ${NAME} ?`} text={`Tu repars à 0 et ton streak de ${days} jour${days > 1 ? 's' : ''} sera ajouté à l'historique.`}
         icon={illus} confirm="Oui, reset" onConfirm={reset} onCancel={() => setAsk(false)} />
     </div>

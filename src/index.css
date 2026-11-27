@@ -339,3 +339,7 @@ html[data-theme=dark] .aura.a2{border-color:rgba(190,180,255,.28)}
   background:radial-gradient(circle at 30% 25%,color-mix(in srgb,var(--t) 40%,#fff),color-mix(in srgb,var(--t) 90%,transparent));border:1px solid rgba(255,255,255,.8);
   box-shadow:0 12px 28px rgba(90,60,140,.22),inset 0 2px 0 rgba(255,255,255,.9)}
 html[data-theme=dark] .orbit .orb2{background:radial-gradient(circle at 30% 25%,color-mix(in srgb,var(--t) 55%,#2a2438),color-mix(in srgb,var(--t) 35%,#1d1727));border-color:rgba(255,255,255,.18)}
+
+.histrow{padding:6px 0;font-size:14px;overflow:hidden}
+.xbtn{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--surf);color:var(--mute)}
+.xbtn svg{width:14px;height:14px}
