@@ -3,7 +3,7 @@
   --lav:#b9bdff; --yel:#f6e07c; --mint:#b9e6d6; --peach:#f7cfbc; --rose:#ee8a78; --olive:#8d9b62; --sky:#7aa6ec;
   --display:'Fredoka','Outfit',system-ui,sans-serif;
   --glass:rgba(255,255,255,.46); --glass-brd:rgba(255,255,255,.75);
-  --qg1:#c9ccd7;--qg2:#585c6e;--surf:rgba(255,255,255,.55); --surf-hi:rgba(255,255,255,.85); --ink2:var(--ink2); --track:rgba(0,0,0,.07); --sheet:#fbf9ff; --ghost:rgba(0,0,0,.07);
+  --qg1:#5f6374;--qg2:#c6cad8;--surf:rgba(255,255,255,.55); --surf-hi:rgba(255,255,255,.85); --ink2:var(--ink2); --track:rgba(0,0,0,.07); --sheet:#fbf9ff; --ghost:rgba(0,0,0,.07);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body,#root{margin:0;height:100%}
@@ -226,7 +226,7 @@ html.bg-paused *,html.bg-paused *::before,html.bg-paused *::after{animation-play
 html.no-blur .glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(255,255,255,.8)}
 html.no-blur[data-theme=dark] .glass{background:rgba(34,28,50,.92)}
 /* --- thème sombre --- */
-html[data-theme=dark]{--qg1:#707489;--qg2:#e6e8f1;--bg:#12101a;--ink:#f3effa;--mute:#9d98ad;--ink2:#f3effab3;--surf:rgba(255,255,255,.08);--surf-hi:rgba(255,255,255,.16);--track:rgba(255,255,255,.13);--sheet:#1d1829;--ghost:rgba(255,255,255,.12);--glass:rgba(40,34,60,.55);--glass-brd:rgba(255,255,255,.12);color-scheme:dark}
+html[data-theme=dark]{--qg1:#8f93a6;--qg2:#f1f2f8;--bg:#12101a;--ink:#f3effa;--mute:#9d98ad;--ink2:#f3effab3;--surf:rgba(255,255,255,.08);--surf-hi:rgba(255,255,255,.16);--track:rgba(255,255,255,.13);--sheet:#1d1829;--ghost:rgba(255,255,255,.12);--glass:rgba(40,34,60,.55);--glass-brd:rgba(255,255,255,.12);color-scheme:dark}
 html[data-theme=dark] .app{background:linear-gradient(160deg,#1b1533 0%,#0f1822 55%,#21161c 100%)}
 html[data-theme=dark] .blobs i{opacity:.4}
 html[data-theme=dark] .glass{box-shadow:0 10px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.12)}
@@ -278,7 +278,7 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .strip{gap:4px}
 
 .quote2{margin:6px 8px 22px;padding:0;text-align:center}
-.quote2 blockquote{margin:0;font-family:'DM Serif Display',Georgia,serif;font-style:normal;font-weight:400;font-size:19px;line-height:1.35;letter-spacing:-.02em;word-spacing:.1em;color:var(--qg2);opacity:1}
+.quote2 blockquote{margin:0;font-family:'DM Serif Display',Georgia,serif;font-style:normal;font-weight:400;font-size:27px;line-height:1.25;letter-spacing:-.02em;word-spacing:.1em;color:var(--qg1);opacity:1}
 .qm{font-size:40px;line-height:0;vertical-align:-.28em;margin:0 4px;font-weight:400}
 .qs-title{margin:0 0 10px 4px}
 .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
