@@ -1,16 +1,14 @@
 import { motion } from 'framer-motion'
 import Icon3D from '../components/Icon3D'
 import TitleLogo from '../components/TitleLogo'
-import { Back } from '../components/Glyph'
 import { BADGES, XP_PER_LEVEL, useGame } from '../game'
 import { NAME } from '../store'
 
-export default function Rewards({ onBack }: { onBack: () => void }) {
+export default function Rewards() {
   const g = useGame()
   const left = XP_PER_LEVEL - (g.xp % XP_PER_LEVEL)
   return (
     <div className="scroll">
-      <motion.button className="back" onClick={onBack} whileHover={{ x: -4 }} whileTap={{ scale: .85 }}><Back /></motion.button>
       <TitleLogo name="rewards" alt="Récompenses" />
       <p className="sub">Le niveau de {NAME}</p>
 
