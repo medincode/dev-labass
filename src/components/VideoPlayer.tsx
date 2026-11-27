@@ -9,7 +9,7 @@ const Pause = () => <svg width="26" height="26" viewBox="0 0 24 24" fill="curren
 const Vol = ({ off }: { off: boolean }) => <svg width="20" height="20" viewBox="0 0 24 24" {...I}><path d="M4 9.5v5h4l5 4v-13l-5 4z" />{off ? <path d="M17 9l4 6M21 9l-4 6" /> : <path d="M16.5 8.5a5 5 0 0 1 0 7" />}</svg>
 
 /** Lecteur vidéo maison : overlay play, barre de progression, volume. Écran maintenu allumé pendant la lecture. */
-export default function VideoPlayer({ src, onEnded }: { src: string; onEnded?: () => void }) {
+export default function VideoPlayer({ src, onEnded, onStart }: { src: string; onEnded?: () => void; onStart?: () => void }) {
   const v = useRef<HTMLVideoElement>(null), box = useRef<HTMLDivElement>(null)
   const [playing, setPlaying] = useState(false), [t, setT] = useState(0), [dur, setDur] = useState(0)
   const [vol, setVol] = useState(1), [ui, setUi] = useState(true)
@@ -28,7 +28,7 @@ export default function VideoPlayer({ src, onEnded }: { src: string; onEnded?: (
   return (
     <div ref={box} className="vp" onPointerMove={wake}>
       <video ref={v} src={src} preload="metadata" playsInline onClick={toggle}
-        onPlay={() => { setPlaying(true); wake(); keepAwake(true) }} onPause={() => { setPlaying(false); setUi(true); keepAwake(false) }}
+        onPlay={() => { setPlaying(true); wake(); keepAwake(true); onStart?.() }} onPause={() => { setPlaying(false); setUi(true); keepAwake(false) }}
         onTimeUpdate={e => setT(e.currentTarget.currentTime)} onLoadedMetadata={e => setDur(e.currentTarget.duration)}
         onEnded={() => { setPlaying(false); keepAwake(false); onEnded?.() }} />
       <AnimatePresence>

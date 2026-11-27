@@ -1,10 +1,8 @@
-import { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
-import Confirm from '../components/Confirm'
-import NavIcon from '../components/NavIcons'
-import { DEFAULT_SETTINGS, NAME, type Settings, readLocal, useLocal, writeLocal } from '../store'
 
-const KEYS = ['counter-fap', 'counter-cheat', 'mood-log', 'fitness-plan', 'awards', 'prog-done', 'settings']
+import { motion } from 'framer-motion'
+import NavIcon from '../components/NavIcons'
+import { DEFAULT_SETTINGS, type Settings, useLocal } from '../store'
+
 const THEMES: { id: Settings['theme']; label: string; icon: string }[] = [{ id: 'light', label: 'Clair', icon: 'sun' }, { id: 'dark', label: 'Sombre', icon: 'moon' }, { id: 'auto', label: 'Auto', icon: 'auto' }]
 
 function Switch({ on, onChange, label }: { on: boolean; onChange: (v: boolean) => void; label: string }) {
@@ -17,19 +15,7 @@ function Switch({ on, onChange, label }: { on: boolean; onChange: (v: boolean) =
 
 export default function SettingsPage() {
   const [st, setSt] = useLocal<Settings>('settings', DEFAULT_SETTINGS)
-  const [ask, setAsk] = useState(false)
-  const file = useRef<HTMLInputElement>(null)
   const set = (p: Partial<Settings>) => setSt({ ...st, ...p })
-  const exportData = () => {
-    const data: Record<string, unknown> = {}; KEYS.forEach(k => { data[k] = readLocal(k, null) })
-    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }))
-    a.download = `labass-${new Date().toISOString().slice(0, 10)}.json`; a.click(); URL.revokeObjectURL(a.href)
-  }
-  const importData = async (f?: File) => {
-    if (!f) return
-    try { const d = JSON.parse(await f.text()); KEYS.forEach(k => { if (d[k] != null) writeLocal(k, d[k]) }); location.reload() } catch { alert('Fichier invalide') }
-  }
-  const wipe = () => { KEYS.forEach(k => localStorage.removeItem(k)); location.reload() }
   return (
     <div className="scroll">
       <h1><b>Paramètres</b></h1>
@@ -53,18 +39,7 @@ export default function SettingsPage() {
         <div className="setrow"><div><b>Effet verre (flou)</b><small>Désactive-le si ton téléphone chauffe</small></div><Switch label="Effet verre" on={st.blur} onChange={v => set({ blur: v })} /></div>
       </div>
 
-      <div className="card glass">
-        <h3>Données</h3>
-        <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
-          <motion.button className="pill ghost" whileTap={{ scale: .93 }} onClick={exportData}>Exporter</motion.button>
-          <motion.button className="pill ghost" whileTap={{ scale: .93 }} onClick={() => file.current?.click()}>Importer</motion.button>
-          <motion.button className="pill danger" whileTap={{ scale: .93 }} onClick={() => setAsk(true)}>Tout effacer</motion.button>
-        </div>
-        <input ref={file} type="file" accept="application/json" hidden onChange={e => importData(e.target.files?.[0])} />
-      </div>
-
       <p className="mute center" style={{ fontSize: 12 }}>Labass v{__APP_VERSION__}</p>
-      <Confirm open={ask} title={`Tout effacer, ${NAME} ?`} text="Compteurs, moods, planning, XP : tout repart de zéro. Exporte d'abord si tu veux garder une copie." icon="flame" confirm="Oui, effacer" onConfirm={wipe} onCancel={() => setAsk(false)} />
     </div>
   )
 }

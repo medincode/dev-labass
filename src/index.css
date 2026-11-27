@@ -303,3 +303,6 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .aura.a2{border-width:1.5px;border-color:rgba(150,140,235,.26)}
 html[data-theme=dark] .aura{border-color:rgba(190,180,255,.4);--c:#c4baff}
 html[data-theme=dark] .aura.a2{border-color:rgba(190,180,255,.28)}
+
+.day.checked{background:rgba(185,230,214,.5)}
+.cal .day img{margin-top:6px}

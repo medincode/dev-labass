@@ -24,11 +24,14 @@ export default function Home({ go }: { go: (r: Route) => void }) {
   const q = Math.abs([...dkey()].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)) % QUOTES.length
   const [fap] = useLocal<Counter>('counter-fap', newCounter())
   const [cheat] = useLocal<Counter>('counter-cheat', newCounter())
+  const [blog] = useLocal<Record<string, number[]>>('breath-log', {})
+  const lastB = Object.keys(blog).sort().pop()
+  const ago = lastB ? Math.round((Date.parse(dkey() + 'T12:00') - Date.parse(lastB + 'T12:00')) / 86400000) : null
   const month = dkey().slice(0, 7)
   const sessions = Object.keys(g.plan).filter(k => k.startsWith(month)).reduce((n, k) => n + acts(g.plan, k).length, 0)
   const stats = [
     { i: 'fap', v: daysSince(fap), l: 'Stay Clean', u: 'j' }, { i: 'cheat', v: daysSince(cheat), l: 'Eat Clean', u: 'j' },
-    { i: 'fitness', v: sessions, l: 'Séances', u: '' }, { i: 'star', v: g.xp, l: 'XP', u: '' },
+    { i: 'fitness', v: sessions, l: 'Séances', u: '' }, { i: 'meditation', v: ago === null ? '—' : ago === 0 ? 'Auj.' : ago === 1 ? 'Hier' : `${ago}j`, l: 'Dernier Wim Hof', u: '' },
   ]
   return (
     <motion.div className="scroll" variants={list} initial="hidden" animate="show">
