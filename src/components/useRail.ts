@@ -1,8 +1,14 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /** Carousel horizontal : flèches précédent/suivant + swipe tactile (natif) + glisser à la souris. */
 export function useRail(step = 216) {
   const ref = useRef<HTMLDivElement>(null)
+  const [can, setCan] = useState(false)
+  useEffect(() => {
+    const el = ref.current; if (!el) return
+    const check = () => setCan(el.scrollWidth > el.clientWidth + 4)
+    check(); const ro = new ResizeObserver(check); ro.observe(el); return () => ro.disconnect()
+  }, [])
   const d = useRef({ on: false, x: 0, left: 0, moved: false })
   const by = (dir: number) => ref.current?.scrollBy({ left: dir * step, behavior: 'smooth' })
   const end = () => { if (!d.current.on) return; d.current.on = false; if (ref.current) ref.current.style.scrollSnapType = '' }
@@ -19,5 +25,5 @@ export function useRail(step = 216) {
     },
     onPointerUp: end, onPointerLeave: end,
   }
-  return { ref, by, bind, moved: () => d.current.moved }
+  return { ref, by, bind, can, moved: () => d.current.moved }
 }

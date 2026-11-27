@@ -13,8 +13,12 @@ export function readLocal<T>(key: string, init: T): T {
   }
   return cache.get(key) as T
 }
-export function writeLocal<T>(key: string, next: T) {
+/** `silent` = écriture venue de la synchro distante (ne déclenche pas de push). */
+export function writeLocal<T>(key: string, next: T, silent = false) {
   cache.set(key, next); persist(key, next); subs.get(key)?.forEach(f => f())
+  if (silent) return
+  try { const t = new Set<string>(JSON.parse(localStorage.getItem('sync-touched') || '[]')); t.add(key); localStorage.setItem('sync-touched', JSON.stringify([...t])) } catch { /* ignore */ }
+  window.dispatchEvent(new CustomEvent('local-write', { detail: key }))
 }
 export function useLocal<T>(key: string, init: T) {
   const v = useSyncExternalStore(

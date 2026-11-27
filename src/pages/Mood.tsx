@@ -31,8 +31,8 @@ export default function Mood() {
       <TitleLogo name="mood" alt="Mood-o-meter" />
       <p className="sub">Alors {NAME}, comment tu te sens ?</p>
       <motion.div className="hero glass" style={{ '--t': 'var(--peach)' } as React.CSSProperties} initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-        <button className="arr l glass" aria-label="Précédent" onClick={() => rail.by(-1)}><Prev /></button>
-        <button className="arr r glass" aria-label="Suivant" onClick={() => rail.by(1)}><Next /></button>
+        {rail.can && <button className="arr l glass" aria-label="Précédent" onClick={() => rail.by(-1)}><Prev /></button>}
+        {rail.can && <button className="arr r glass" aria-label="Suivant" onClick={() => rail.by(1)}><Next /></button>}
         <div ref={rail.ref} {...rail.bind} className="carousel" onScroll={e => setFocus(Math.min(MOODS.length - 1, Math.max(0, Math.round(e.currentTarget.scrollLeft / W))))}>
           {MOODS.map((m, i) => (
             <motion.button key={m.id} className={'citem' + (focus === i ? ' focus' : '') + (cur === m.id ? ' chosen' : '')} aria-label={m.label}

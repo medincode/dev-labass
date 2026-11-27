@@ -19,7 +19,7 @@ export default function MoodStrip({ onMore }: { onMore: () => void }) {
         <button className="more" onClick={onMore}>Stats <Arrow /></button>
       </div>
       <div className="stripwrap">
-        <button className="arr l glass" aria-label="Précédent" onClick={() => rail.by(-1)}><Prev /></button>
+        {rail.can && <button className="arr l glass" aria-label="Précédent" onClick={() => rail.by(-1)}><Prev /></button>}
         <div ref={rail.ref} className="strip" {...rail.bind}>
           {MOODS.map(m => (
             <motion.button key={m.id} className={'sm' + (cur === m.id ? ' on' : '')} onClick={() => pick(m.id)} whileHover={{ y: -4 }} whileTap={{ scale: .9 }}>
@@ -27,7 +27,7 @@ export default function MoodStrip({ onMore }: { onMore: () => void }) {
             </motion.button>
           ))}
         </div>
-        <button className="arr r glass" aria-label="Suivant" onClick={() => rail.by(1)}><Next /></button>
+        {rail.can && <button className="arr r glass" aria-label="Suivant" onClick={() => rail.by(1)}><Next /></button>}
       </div>
     </motion.div>
   )

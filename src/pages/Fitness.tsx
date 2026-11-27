@@ -77,10 +77,12 @@ export default function Fitness() {
       <div className="card glass">
         <div className="row" style={{ marginBottom: 6 }}>
           <h3 style={{ margin: 0 }}>Tes sports</h3>
+          {rail.can && (
           <div className="row" style={{ gap: 8 }}>
             <motion.button className="round glass" aria-label="Précédent" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => rail.by(-1)}><Prev /></motion.button>
             <motion.button className="round glass" aria-label="Suivant" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => rail.by(1)}><Next /></motion.button>
           </div>
+          )}
         </div>
         <div ref={rail.ref} className="sportrail" {...rail.bind}>
           {GROUPS.map(g => (

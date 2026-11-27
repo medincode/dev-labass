@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Icon3D from '../components/Icon3D'
 import MoodStrip from '../components/MoodStrip'
 import NavIcon from '../components/NavIcons'
@@ -7,7 +6,7 @@ import logo from '../assets/brand/logo.webp'
 import mascot from '../assets/brand/mascot.webp'
 import { QUOTES } from '../data/quotes'
 import { useGame } from '../game'
-import { NAME, hello } from '../store'
+import { NAME, dkey, hello } from '../store'
 
 export type Route = 'home' | 'fap' | 'cheat' | 'fitness' | 'meditation' | 'mood' | 'rewards' | 'settings'
 const HUB: { r: Route; label: string; icon: string; c: string; cls: string }[] = [
@@ -21,8 +20,8 @@ const item = { hidden: { y: 26, opacity: 0, scale: .97 }, show: { y: 0, opacity:
 
 export default function Home({ go }: { go: (r: Route) => void }) {
   const g = useGame()
-  const [q, setQ] = useState(() => Math.floor(Math.random() * QUOTES.length))
-  const nextQuote = () => setQ(v => { let n = v; while (n === v) n = Math.floor(Math.random() * QUOTES.length); return n })
+  // Citation du jour : tirée au hasard mais stable pour la journée (pas modifiable).
+  const q = Math.abs([...dkey()].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7)) % QUOTES.length
   const done = g.quests.filter(x => x.done).length
   return (
     <motion.div className="scroll" variants={list} initial="hidden" animate="show">
@@ -45,7 +44,10 @@ export default function Home({ go }: { go: (r: Route) => void }) {
         <h1 style={{ marginBottom: 0 }}>{hello()} <b>{NAME}</b> !</h1>
       </motion.div>
 
+      <motion.div variants={item}><MoodStrip onMore={() => go('mood')} /></motion.div>
+
       <motion.div className="hub" variants={item}>
+        <span className="glow" /><span className="aura a1" /><span className="aura a2" />
         <span className="float mascot-wrap"><img src={mascot} alt="" className="mascot" draggable={false} /></span>
         <span className="shadow" />
         {HUB.map((h, i) => (
@@ -59,15 +61,9 @@ export default function Home({ go }: { go: (r: Route) => void }) {
         ))}
       </motion.div>
 
-      <motion.div variants={item}><MoodStrip onMore={() => go('mood')} /></motion.div>
-
-      <motion.button className="card glass quote" variants={item} onClick={nextQuote} whileTap={{ scale: .98 }} aria-label="Autre citation">
-        <Icon3D name="star" size={34} float />
-        <AnimatePresence mode="wait">
-          <motion.p key={q} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: .2 }}>{QUOTES[q]}</motion.p>
-        </AnimatePresence>
-        <span className="mute"><NavIcon name="refresh" size={18} /></span>
-      </motion.button>
+      <motion.figure className="quote2 glass" variants={item}>
+        <blockquote>« {QUOTES[q]} »</blockquote>
+      </motion.figure>
 
       <motion.button className="wide glass" variants={item} onClick={() => go('rewards')} whileHover={{ y: -3 }} whileTap={{ scale: .97 }}>
         <Icon3D name="trophy" size={54} float delay={.5} />

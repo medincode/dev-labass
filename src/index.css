@@ -78,6 +78,7 @@ h3{font-size:18px;font-weight:600;margin:0 0 10px}
 
 .nav{position:absolute;left:50%;transform:translateX(-50%)!important;bottom:calc(env(safe-area-inset-bottom) + 16px);display:flex;gap:2px;padding:7px;border-radius:34px;z-index:20;width:calc(100% - 28px);max-width:420px;justify-content:space-between}
 .nav button{flex:1;height:56px;border-radius:26px;display:grid;place-items:center;position:relative;color:var(--mute);transition:color .2s}
+.nav button:not(.on) img{opacity:.8}
 .nav button.on{color:var(--ink)}
 .nav span{position:relative;z-index:1}.nav img{position:relative;z-index:1}
 .pill-bg{position:absolute;inset:0;border-radius:26px;background:var(--surf-hi);box-shadow:0 4px 14px #5a3c8c26}
@@ -247,3 +248,32 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .arr.l{left:-8px}.arr.r{right:-8px}
 .arr svg{width:18px;height:18px}
 .hero .arr{top:122px}
+
+/* --- hub : bonhomme centré, 2 auras qui tournent, icônes en orbite --- */
+.hub{height:408px}
+.mascot-wrap{top:50%;left:50%;translate:-50% -50%;width:196px}
+.shadow{top:calc(50% + 102px);bottom:auto;width:130px}
+.glow{position:absolute;left:50%;top:50%;translate:-50% -50%;width:270px;height:270px;border-radius:50%;background:radial-gradient(circle,rgba(185,189,255,.6),rgba(185,230,214,.25) 55%,transparent 72%);pointer-events:none;animation:breathe 5s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.1);opacity:.8}}
+.aura{position:absolute;left:50%;top:50%;translate:-50% -50%;border-radius:50%;pointer-events:none;
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px))}
+.aura::after{content:'';position:absolute;top:0;left:50%;width:11px;height:11px;margin:-4px 0 0 -5px;border-radius:50%;background:var(--c);box-shadow:0 0 14px 3px var(--c)}
+.aura.a1{--c:var(--lav);width:236px;height:236px;background:conic-gradient(from 0deg,transparent 0 12%,var(--lav) 42%,transparent 58% 72%,var(--mint) 96%,transparent);animation:spin 14s linear infinite}
+.aura.a2{--c:var(--yel);width:340px;height:340px;background:conic-gradient(from 90deg,transparent 0 10%,var(--yel) 40%,transparent 55% 70%,var(--rose) 95%,transparent);animation:spin 22s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bubble{right:auto}
+.b0{left:calc(50% - 170px);top:calc(50% - 176px)}
+.b1{left:calc(50% + 78px);top:calc(50% - 176px)}
+.b2{left:calc(50% - 170px);top:calc(50% + 62px)}
+.b3{left:calc(50% + 78px);top:calc(50% + 62px)}
+
+.quote2{margin:0 0 14px;padding:22px 24px;border-radius:30px;text-align:center}
+.quote2 blockquote{margin:0;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;font-size:20px;line-height:1.4;color:var(--ink)}
+
+/* bonhomme : vol vertical uniquement (haut / bas) */
+.mascot-wrap{animation:fly 3.8s ease-in-out infinite!important}
+@keyframes fly{0%,100%{transform:translate3d(0,10px,0)}50%{transform:translate3d(0,-16px,0)}}
+.shadow{animation:shadow 3.8s ease-in-out infinite!important}
+@keyframes shadow{0%,100%{transform:scaleX(.82);opacity:.55}50%{transform:scaleX(1);opacity:.9}}
+
+.pill:disabled{opacity:.45;cursor:default}
