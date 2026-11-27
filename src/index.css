@@ -1,3 +1,4 @@
+@font-face{font-family:'Kinetic Bravely';src:url('./assets/fonts/kinetic-bravely.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
 :root{
   --bg:#efe9fb; --ink:#1b1524; --mute:#7f7a8c;
   --lav:#b9bdff; --yel:#f6e07c; --mint:#b9e6d6; --peach:#f7cfbc; --rose:#ee8a78; --olive:#8d9b62; --sky:#7aa6ec;
@@ -278,7 +279,7 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .strip{gap:4px}
 
 .quote2{margin:6px 8px 22px;padding:0;text-align:center}
-.quote2 blockquote{margin:0;font-family:'Italiana',Georgia,serif;font-style:normal;font-weight:400;font-size:24px;line-height:1.4;letter-spacing:.01em;color:var(--ink);opacity:.62;letter-spacing:.005em}
+.quote2 blockquote{margin:0;font-family:'Kinetic Bravely',Georgia,serif;font-style:normal;font-weight:400;font-size:24px;line-height:1.4;color:var(--ink);opacity:.62;letter-spacing:.005em}
 .qm{font-size:40px;line-height:0;vertical-align:-.28em;opacity:.55;color:var(--lav);margin:0 4px;font-weight:400}
 .qs-title{margin:0 0 10px 4px}
 .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
