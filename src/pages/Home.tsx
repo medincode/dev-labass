@@ -16,6 +16,7 @@ const HUB: { r: Route; label: string; icon: string; c: string; angle: number }[]
   { r: 'meditation', label: 'Breath good', icon: 'meditation', c: 'var(--peach)', angle: 40 },
   { r: 'cheat', label: 'Eat Clean', icon: 'cheat', c: 'var(--yel)', angle: 140 },
 ]
+const LETTER = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: .25, ease: 'easeOut' as const } } }
 const list = { show: { transition: { staggerChildren: .03 } } }
 const item = { hidden: { y: 26, opacity: 0, scale: .97 }, show: { y: 0, opacity: 1, scale: 1, transition: { type: 'spring' as const, stiffness: 260, damping: 20 } } }
 
@@ -74,7 +75,13 @@ export default function Home({ go }: { go: (r: Route) => void }) {
       </motion.div>
 
       <motion.figure className="quote2" variants={item}>
-        <blockquote><span className="qm">“</span>{QUOTES[q]}<span className="qm">”</span></blockquote>
+        <motion.blockquote variants={{ show: { transition: { staggerChildren: .028, delayChildren: .15 } } }} initial="hidden" whileInView="show" viewport={{ once: true, amount: .6 }}>
+          <motion.span className="qm" variants={LETTER}>“</motion.span>
+          {QUOTES[q].split(' ').map((w, wi) => (
+            <span key={wi}><span className="qw">{[...w].map((ch, ci) => <motion.span key={ci} className="ql" variants={LETTER}>{ch}</motion.span>)}</span>{' '}</span>
+          ))}
+          <motion.span className="qm" variants={LETTER}>”</motion.span>
+        </motion.blockquote>
       </motion.figure>
 
       <motion.div variants={item}>

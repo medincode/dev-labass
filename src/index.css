@@ -278,7 +278,7 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .strip{gap:4px}
 
 .quote2{margin:6px 8px 22px;padding:0;text-align:center}
-.quote2 blockquote{margin:0;font-family:'DM Serif Display',Georgia,serif;font-style:normal;font-weight:400;font-size:22px;line-height:1.3;letter-spacing:-.025em;word-spacing:.1em;color:var(--ink);opacity:.36}
+.quote2 blockquote{margin:0;font-family:'DM Serif Display',Georgia,serif;font-style:normal;font-weight:400;font-size:19px;line-height:1.35;letter-spacing:-.02em;word-spacing:.1em;color:var(--ink);opacity:.36}
 .qm{font-size:40px;line-height:0;vertical-align:-.28em;opacity:.55;color:var(--lav);margin:0 4px;font-weight:400}
 .qs-title{margin:0 0 10px 4px}
 .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -353,3 +353,11 @@ html[data-theme=dark] .orbit .orb2{background:radial-gradient(circle at 30% 25%,
 .aura.a2{width:340px;height:340px}
 .orbit{width:92px;height:92px;margin:-46px 0 0 -46px}
 .orbit .orb2{width:92px;height:92px}
+/* flèches des carousels : toujours au-dessus des bords (plus rognées par la carte) */
+.card,.hero{contain:none!important;content-visibility:visible!important}
+.arr{z-index:8}
+.arr.l{left:-10px}.arr.r{right:-10px}
+.sportsbar .arr.l{left:6px}.sportsbar .arr.r{right:6px}
+
+.qw{display:inline-block;white-space:nowrap}.ql{display:inline-block}
+
