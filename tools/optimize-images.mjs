@@ -3,7 +3,7 @@ import sharp from 'sharp'
 import { readdirSync, mkdirSync, statSync, unlinkSync } from 'node:fs'
 import { join } from 'node:path'
 
-const ICON = 384 // les icônes 3D s'affichent à ≤ 128px (x3 densité) : 384px suffit
+const ICON = 288 // plafond ; tools/resize-icons.mjs ramène ensuite les petites icônes à 192
 const dir = 'src/assets/3d'
 let before = 0, after = 0
 for (const f of readdirSync(dir).filter(f => f.endsWith('.png'))) {

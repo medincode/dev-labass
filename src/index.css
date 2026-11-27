@@ -463,3 +463,5 @@ html.video-on .vp-wave i,html.video-on .vp-wave i::before{animation-play-state:r
 /* icônes du hub : fixes (plus de mini-jeu) */
 .orbit{touch-action:auto;cursor:pointer;will-change:auto}
 .orbit:active{cursor:pointer}
+/* perf : rendu des auras et du halo isolé */
+.glow,.aura{contain:strict}
