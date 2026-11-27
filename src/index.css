@@ -123,3 +123,10 @@ video{object-fit:cover;width:100%;aspect-ratio:16/9;border:0;border-radius:22px;
 .actions{display:flex;gap:10px}.actions .pill{flex:1}
 @media (hover:hover){.pill:hover{filter:brightness(1.1)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+.tabs{display:flex;gap:4px;padding:6px;border-radius:30px;margin-bottom:14px}
+.tabs button{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:0;padding:6px 4px 8px;border-radius:24px;font-size:12px;font-weight:600;color:var(--mute)}
+.tabs button.on{color:var(--ink)}
+.tabs .pill-bg{background:#fffc}
+.tabs span,.tabs img{position:relative;z-index:1}
+.tabs .tick{position:absolute!important;top:2px;right:8px;z-index:2}
