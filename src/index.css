@@ -438,3 +438,7 @@ html[data-theme=dark] .glass{background:rgba(34,28,50,.9)}
 .day small{top:4px;left:0;right:0;text-align:center;font-size:10px;line-height:1}
 .day .dayicons{padding-top:10px;max-width:100%}
 .day.today{outline-offset:-2px}
+/* mood accueil : sélection = rond autour de l'emoji seulement */
+.sm.on{background:none;border-color:transparent;box-shadow:none}
+.sm.on .float{border-radius:50%;padding:4px;background:var(--surf-hi);border:1px solid rgba(255,255,255,.8);box-shadow:0 6px 16px rgba(90,60,140,.16)}
+html[data-theme=dark] .sm.on .float{border-color:rgba(255,255,255,.25)}
