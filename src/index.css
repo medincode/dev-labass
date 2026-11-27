@@ -306,3 +306,4 @@ html[data-theme=dark] .aura.a2{border-color:rgba(190,180,255,.28)}
 
 .day.checked{background:rgba(185,230,214,.5)}
 .cal .day img{margin-top:6px}
+.titlerow{justify-content:space-between;width:100%}
