@@ -53,6 +53,19 @@ export default function Fitness() {
         <motion.span key={count} className="vbadge glass" initial={{ scale: 1.3 }} animate={{ scale: 1 }}>{count} séance{count > 1 ? 's' : ''} ce mois</motion.span>
       </div>
       <p className="sub">Ton planning sport</p>
+      <div className="sportsbar">
+        {rail.can && <button className="arr l glass" aria-label="Précédent" onClick={() => rail.by(-1)}><Prev /></button>}
+        <div ref={rail.ref} className="sportrail" {...rail.bind}>
+          {GROUPS.map(g => (
+            <motion.button key={g.id} className="sitem glass" onClick={() => { if (!rail.moved()) openGroup(g.id) }} whileHover={{ y: -4 }} whileTap={{ scale: .92 }}>
+              <Icon3D name={g.icon} size={62} /><b>{g.label}</b>
+              {g.ids.length > 1 && <small>V1 · V2 · V3</small>}
+            </motion.button>
+          ))}
+        </div>
+        {rail.can && <button className="arr r glass" aria-label="Suivant" onClick={() => rail.by(1)}><Next /></button>}
+      </div>
+
       <motion.div className="card glass" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
         <div className="row" style={{ marginBottom: 12 }}>
           <motion.button className="round" whileHover={{ scale: 1.12 }} whileTap={{ scale: .85 }} onClick={() => setCur(new Date(y, m - 1, 1))}><Prev /></motion.button>
@@ -75,25 +88,6 @@ export default function Fitness() {
           })}
         </div>
       </motion.div>
-      <div className="card glass">
-        <div className="row" style={{ marginBottom: 6 }}>
-          <h3 style={{ margin: 0 }}>Tes sports</h3>
-          {rail.can && (
-          <div className="row" style={{ gap: 8 }}>
-            <motion.button className="round glass" aria-label="Précédent" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => rail.by(-1)}><Prev /></motion.button>
-            <motion.button className="round glass" aria-label="Suivant" whileHover={{ scale: 1.1 }} whileTap={{ scale: .85 }} onClick={() => rail.by(1)}><Next /></motion.button>
-          </div>
-          )}
-        </div>
-        <div ref={rail.ref} className="sportrail" {...rail.bind}>
-          {GROUPS.map(g => (
-            <motion.button key={g.id} className="sitem" onClick={() => { if (!rail.moved()) openGroup(g.id) }} whileHover={{ y: -4 }} whileTap={{ scale: .92 }}>
-              <Icon3D name={g.icon} size={62} /><b>{g.label}</b>
-              {g.ids.length > 1 && <small>V1 · V2 · V3</small>}
-            </motion.button>
-          ))}
-        </div>
-      </div>
       <Portal>
       <AnimatePresence>
         {sel && (

@@ -278,7 +278,7 @@ html[data-theme=dark] .exrow,html[data-theme=dark] .quest{border-color:rgba(255,
 .strip{gap:4px}
 
 .quote2{margin:6px 8px 22px;padding:0;text-align:center}
-.quote2 blockquote{margin:0;font-family:'Fraunces Variable','Fraunces',Georgia,serif;font-style:italic;font-weight:400;font-size:19px;line-height:1.5;color:var(--ink);opacity:.62;letter-spacing:.005em}
+.quote2 blockquote{margin:0;font-family:'Fraunces Variable','Fraunces',Georgia,serif;font-style:normal;font-weight:360;font-variation-settings:'opsz' 144,'SOFT' 0,'WONK' 0;font-optical-sizing:none;font-size:23px;line-height:1.28;letter-spacing:-.015em;color:var(--ink);opacity:.62;letter-spacing:.005em}
 .qm{font-size:40px;line-height:0;vertical-align:-.28em;opacity:.55;color:var(--lav);margin:0 4px;font-weight:400}
 .qs-title{margin:0 0 10px 4px}
 .qs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -311,3 +311,10 @@ html[data-theme=dark] .aura.a2{border-color:rgba(190,180,255,.28)}
 .carousel{padding-top:18px;padding-bottom:46px;margin-bottom:-32px;margin-top:-6px}
 .strip{padding-top:8px;padding-bottom:28px;margin-bottom:-20px}
 .sportrail{padding-bottom:26px;margin-bottom:-16px}
+
+/* carousel sports : au-dessus du calendrier, flèches sur les côtés */
+.sportsbar{position:relative;margin:0 -18px 12px}
+.sportsbar .sportrail{margin:0;padding:6px 18px 24px;margin-bottom:-14px}
+.sportsbar .arr.l{left:6px}.sportsbar .arr.r{right:6px}
+.sportsbar .arr{top:calc(50% - 8px)}
+.sitem.glass{background:var(--glass)}
