@@ -3,7 +3,7 @@
   --lav:#b9bdff; --yel:#f6e07c; --mint:#b9e6d6; --peach:#f7cfbc; --rose:#ee8a78; --olive:#8d9b62; --sky:#7aa6ec;
   --display:'Fredoka','Outfit',system-ui,sans-serif;
   --glass:rgba(255,255,255,.46); --glass-brd:rgba(255,255,255,.75);
-  --qg1:#b4b8c6;--qg2:#e6e8ef;--surf:rgba(255,255,255,.55); --surf-hi:rgba(255,255,255,.85); --ink2:var(--ink2); --track:rgba(0,0,0,.07); --sheet:#fbf9ff; --ghost:rgba(0,0,0,.07);
+  --qg1:#7d8294;--qg2:#b9bdcb;--surf:rgba(255,255,255,.55); --surf-hi:rgba(255,255,255,.85); --ink2:var(--ink2); --track:rgba(0,0,0,.07); --sheet:#fbf9ff; --ghost:rgba(0,0,0,.07);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body,#root{margin:0;height:100%}
@@ -370,7 +370,7 @@ html[data-theme=dark] .orbit .orb2{background:radial-gradient(circle at 30% 25%,
 .orbit .orb2{width:86px;height:86px}
 
 /* citation : un dégradé DANS chaque lettre (gris en haut -> un peu de blanc en bas) */
-.ql,.qm{background:linear-gradient(180deg,var(--qg1) 22%,var(--qg2) 92%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.ql,.qm{background:linear-gradient(180deg,var(--qg1) 25%,var(--qg2) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 
 /* 2 ronds (anneaux + point) en gris */
 .aura{border-color:rgba(120,124,140,.4)!important;--c:#8a8e9e}
@@ -391,3 +391,7 @@ html[data-theme=dark] .aura.a2{border-color:rgba(200,203,218,.26)!important}
 .pill.danger{background:linear-gradient(135deg,#ee8a78 0%,#e5607a 100%);color:#fff;box-shadow:0 8px 20px rgba(229,96,122,.3),inset 0 1px 0 rgba(255,255,255,.25)}
 html[data-theme=dark] .pill:not(.ghost):not(.danger){background:linear-gradient(135deg,#5a4a9a 0%,#8a6fd0 60%,#b79cf5 100%)}
 @media (hover:hover){.pill:hover{filter:brightness(1.08)}}
+/* ronds : gris plus clair */
+.aura{border-color:rgba(160,164,178,.3)!important;--c:#b9bcc9}
+.aura.a2{border-color:rgba(160,164,178,.2)!important}
+.glow{background:radial-gradient(circle,rgba(170,174,188,.16),rgba(170,174,188,.06) 55%,transparent 72%)}
